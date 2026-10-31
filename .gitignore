@@ -14,3 +14,6 @@ coverage/
 # divers
 *.log
 .DS_Store
+
+# généré par Next.js
+next-env.d.ts
