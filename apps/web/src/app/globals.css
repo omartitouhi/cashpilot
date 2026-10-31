@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Palette : neutres + une seule couleur d'accent (sarcelle). */
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-brand-50: #effcf9;
+  --color-brand-100: #c9f5eb;
+  --color-brand-500: #14a38b;
+  --color-brand-600: #0e8573;
+  --color-brand-700: #0f6a5d;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
