@@ -1,0 +1,16 @@
+# dépendances
+node_modules/
+
+# builds
+.next/
+dist/
+coverage/
+.turbo/
+
+# environnement
+.env
+.env.local
+
+# divers
+*.log
+.DS_Store
