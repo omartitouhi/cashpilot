@@ -17,3 +17,4 @@ coverage/
 
 # généré par Next.js
 next-env.d.ts
+*.tsbuildinfo
