@@ -1,0 +1,18 @@
+# Base de données locale pour le développement.
+# Port 5433 pour ne pas entrer en conflit avec un autre PostgreSQL.
+name: cashpilot
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: cashpilot
+      POSTGRES_PASSWORD: cashpilot
+      POSTGRES_DB: cashpilot
+    ports:
+      - "5433:5432"
+    volumes:
+      - cashpilot-data:/var/lib/postgresql/data
+
+volumes:
+  cashpilot-data:
