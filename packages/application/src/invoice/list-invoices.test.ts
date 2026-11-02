@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fixedClock, sequentialIds } from "../testing/fakes";
+import { clientsWithOne, fixedClock, sequentialIds } from "../testing/fakes";
 import { InMemoryInvoiceRepository } from "../testing/in-memory-invoice-repository";
 import { CreateInvoice } from "./create-invoice";
 import { ListInvoices } from "./list-invoices";
@@ -8,7 +8,8 @@ import { ValidateInvoice } from "./validate-invoice";
 describe("ListInvoices", () => {
   it("signale une facture validée dont l'échéance est passée", async () => {
     const repo = new InMemoryInvoiceRepository();
-    const { id } = await new CreateInvoice(repo, sequentialIds()).execute({
+    const clients = await clientsWithOne("co-1", "cl-1");
+    const { id } = await new CreateInvoice(repo, clients, sequentialIds()).execute({
       companyId: "co-1",
       clientId: "cl-1",
       amount: 1500,
