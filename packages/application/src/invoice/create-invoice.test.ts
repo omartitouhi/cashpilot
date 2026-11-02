@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { sequentialIds } from "../testing/fakes";
+import { clientsWithOne, sequentialIds } from "../testing/fakes";
 import { InMemoryInvoiceRepository } from "../testing/in-memory-invoice-repository";
 import { CreateInvoice } from "./create-invoice";
 
@@ -11,22 +11,34 @@ const input = {
   dueDate: new Date("2026-01-31"),
 };
 
+async function setup() {
+  const repo = new InMemoryInvoiceRepository();
+  const clients = await clientsWithOne("co-1", "cl-1");
+  return { repo, createInvoice: new CreateInvoice(repo, clients, sequentialIds()) };
+}
+
 describe("CreateInvoice", () => {
   it("enregistre une facture en brouillon", async () => {
-    const repo = new InMemoryInvoiceRepository();
-    const { id } = await new CreateInvoice(repo, sequentialIds()).execute(input);
+    const { repo, createInvoice } = await setup();
+    const { id } = await createInvoice.execute(input);
 
     const invoice = await repo.byId("co-1", id);
     expect(invoice?.status).toBe("DRAFT");
   });
 
   it("numérote les factures à la suite", async () => {
-    const repo = new InMemoryInvoiceRepository();
-    const useCase = new CreateInvoice(repo, sequentialIds());
-    await useCase.execute(input);
-    const { id } = await useCase.execute(input);
+    const { repo, createInvoice } = await setup();
+    await createInvoice.execute(input);
+    const { id } = await createInvoice.execute(input);
 
     const invoice = await repo.byId("co-1", id);
     expect(invoice?.snapshot().number).toBe("F-0002");
+  });
+
+  it("refuse un client d'une autre entreprise", async () => {
+    const { createInvoice } = await setup();
+    const otherCompany = createInvoice.execute({ ...input, companyId: "co-2" });
+
+    await expect(otherCompany).rejects.toThrow("Client introuvable.");
   });
 });
