@@ -7,7 +7,9 @@ type Props = { href: string; children: React.ReactNode };
 
 /** Lien de menu, mis en avant quand la page est ouverte. */
 export function NavLink({ href, children }: Props) {
-  const isActive = usePathname() === href;
+  const pathname = usePathname();
+  // « / » n'est actif que sur l'accueil ; les autres liens aussi sur leurs sous-pages.
+  const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
   const style = isActive
     ? "bg-brand-50 text-brand-700"
     : "text-slate-600 hover:bg-slate-100 hover:text-slate-900";
