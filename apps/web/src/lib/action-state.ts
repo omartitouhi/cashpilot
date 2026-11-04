@@ -5,7 +5,13 @@ import { z } from "zod";
 export type ActionState = {
   message?: string; // erreur générale (règle métier)
   fieldErrors?: Record<string, string[] | undefined>; // erreurs par champ
+  values?: Record<string, string>; // valeurs saisies, pour ne pas les perdre
 };
+
+/** Les valeurs texte d'un formulaire. */
+export function formValues(formData: FormData): Record<string, string> {
+  return Object.fromEntries(formData) as Record<string, string>;
+}
 
 /** Erreurs de validation Zod, champ par champ. */
 export function fromZodError(error: z.ZodError): ActionState {
