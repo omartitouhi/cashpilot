@@ -1,3 +1,4 @@
+import { startOfDay } from "../shared/dates";
 import { DomainError } from "../shared/domain-error";
 import { Money } from "../shared/money";
 import type { InvoiceStatus } from "./invoice-status";
@@ -85,8 +86,9 @@ export class Invoice {
     return this.props.amount.subtract(this.paidAmount());
   }
 
+  /** En retard : validée, pas soldée, et l'échéance est un jour passé. */
   isOverdue(today: Date): boolean {
-    return this.props.status === "ISSUED" && this.props.dueDate < today;
+    return this.props.status === "ISSUED" && this.props.dueDate < startOfDay(today);
   }
 
   /** Copie en lecture seule de l'état, pour l'affichage ou la sauvegarde. */
