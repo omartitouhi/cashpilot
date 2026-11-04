@@ -1,6 +1,7 @@
 import {
   CancelInvoice,
   CreateInvoice,
+  GetInvoice,
   ListClients,
   ListInvoices,
   RecordPayment,
@@ -22,6 +23,7 @@ const ids = new UuidGenerator();
 export const useCases = {
   listClients: new ListClients(clients),
   listInvoices: new ListInvoices(invoices, clock),
+  getInvoice: new GetInvoice(invoices, clock),
   createInvoice: new CreateInvoice(invoices, clients, ids),
   validateInvoice: new ValidateInvoice(invoices),
   cancelInvoice: new CancelInvoice(invoices),
