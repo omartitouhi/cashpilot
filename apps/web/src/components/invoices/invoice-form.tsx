@@ -22,7 +22,9 @@ export function InvoiceForm({ clients, defaultIssueDate, defaultDueDate }: Props
       <FormMessage message={state.message} />
 
       <Field label="Client" name="clientId" errors={errors.clientId}>
-        <select id="clientId" name="clientId" required defaultValue={values.clientId ?? ""} className={inputClass}>
+        {/* La key recrée le <select> avec le client saisi après un envoi refusé. */}
+        <select key={values.clientId} id="clientId" name="clientId" required
+          defaultValue={values.clientId ?? ""} className={inputClass}>
           <option value="" disabled>
             Choisir un client
           </option>
