@@ -7,6 +7,11 @@ export type { InvoiceRepository } from "./ports/invoice-repository";
 // Erreurs
 export { NotFoundError } from "./shared/not-found-error";
 export { isBusinessError } from "./shared/business-error";
+export { ForbiddenError } from "./shared/forbidden-error";
+
+// Utilisateur connecté et permissions
+export { assertCan, type Actor } from "./shared/actor";
+export { can, ROLE_LABELS, type Permission, type Role } from "@cashpilot/domain";
 
 // Clients
 export { ListClients, type ClientView } from "./client/list-clients";
