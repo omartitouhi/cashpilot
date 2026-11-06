@@ -1,10 +1,10 @@
 import { Money } from "@cashpilot/domain";
 import type { IdGenerator } from "../ports/id-generator";
 import type { InvoiceRepository } from "../ports/invoice-repository";
+import { assertCan, type Actor } from "../shared/actor";
 import { findInvoice } from "./find-invoice";
 
 export type RecordPaymentInput = {
-  companyId: string;
   invoiceId: string;
   amount: number; // en dinars
   date: Date;
@@ -17,8 +17,9 @@ export class RecordPayment {
     private readonly ids: IdGenerator,
   ) {}
 
-  async execute(input: RecordPaymentInput): Promise<void> {
-    const invoice = await findInvoice(this.invoices, input.companyId, input.invoiceId);
+  async execute(actor: Actor, input: RecordPaymentInput): Promise<void> {
+    assertCan(actor, "invoices:manage");
+    const invoice = await findInvoice(this.invoices, actor.companyId, input.invoiceId);
     invoice.recordPayment({
       id: this.ids.next(),
       amount: Money.fromDinars(input.amount),
