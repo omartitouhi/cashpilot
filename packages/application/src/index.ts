@@ -28,7 +28,7 @@ export { ListClients, type ClientView } from "./client/list-clients";
 
 // Factures
 export { CreateInvoice, type CreateInvoiceInput } from "./invoice/create-invoice";
-export { ValidateInvoice, type InvoiceRef } from "./invoice/validate-invoice";
+export { ValidateInvoice } from "./invoice/validate-invoice";
 export { CancelInvoice } from "./invoice/cancel-invoice";
 export { RecordPayment, type RecordPaymentInput } from "./invoice/record-payment";
 export { ListInvoices } from "./invoice/list-invoices";
