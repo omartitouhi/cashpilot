@@ -12,7 +12,8 @@
   "dependencies": {
     "@cashpilot/application": "workspace:^",
     "@cashpilot/db": "workspace:^",
-    "@cashpilot/domain": "workspace:^"
+    "@cashpilot/domain": "workspace:^",
+    "bcryptjs": "^3.0.3"
   },
   "devDependencies": {
     "@cashpilot/config": "workspace:^",

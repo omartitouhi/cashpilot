@@ -20,6 +20,7 @@
   "devDependencies": {
     "@cashpilot/config": "workspace:^",
     "@types/node": "^26.6.6",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^18.0.10",
     "prisma": "7.10.1",
     "tsx": "^4.23.15",

@@ -97,6 +97,9 @@ importers:
       '@types/node':
         specifier: ^26.6.6
         version: 26.6.6
+      bcryptjs:
+        specifier: ^3.0.3
+        version: 3.0.3
       dotenv:
         specifier: ^18.0.10
         version: 18.0.10
@@ -133,6 +136,9 @@ importers:
       '@cashpilot/domain':
         specifier: workspace:^
         version: link:../domain
+      bcryptjs:
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       '@cashpilot/config':
         specifier: workspace:^
@@ -1041,6 +1047,10 @@ packages:
   baseline-browser-mapping@2.11.39:
     resolution: {integrity: sha512-Q9buOYhr2ggrEZpImICecZTJHCCd8yXkRUokFlUEQ8uiD6oP82F4W4jWnhOHZYV+wlvrC51V7Wy0ULyWjil5Wg==}
     engines: {node: '>=6.0.0'}
+    hasBin: true
+
+  bcryptjs@3.0.3:
+    resolution: {integrity: sha512-GlF5wPWnSa/X5LKM1o0wz0suXIINz1iHRLvTS+sLyi7XPbe5ycmYI3DlZqVGZZtDgl4DmasFg7gOB3JYbphV5g==}
     hasBin: true
 
   better-result@2.10.0:
@@ -2525,6 +2535,8 @@ snapshots:
   aws-ssl-profiles@1.1.2: {}
 
   baseline-browser-mapping@2.11.39: {}
+
+  bcryptjs@3.0.3: {}
 
   better-result@2.10.0: {}
 
