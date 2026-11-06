@@ -1,7 +1,9 @@
+import bcrypt from "bcryptjs";
 import { prisma } from "../src/index";
 
 // Données de démonstration. Relancer le seed ne crée pas de doublons (upsert).
 const COMPANY_ID = "demo-company";
+const DEMO_PASSWORD = "demo1234"; // comptes de démo uniquement, listés dans le README
 
 async function main() {
   await prisma.company.upsert({
@@ -20,6 +22,21 @@ async function main() {
       where: { id: client.id },
       update: {},
       create: { ...client, companyId: COMPANY_ID },
+    });
+  }
+
+  const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 10);
+  const users = [
+    { id: "demo-owner", name: "Sami Ben Ali", email: "dirigeant@pixel.tn", role: "OWNER" },
+    { id: "demo-finance", name: "Ines Trabelsi", email: "finance@pixel.tn", role: "FINANCE" },
+    { id: "demo-member", name: "Youssef Gharbi", email: "collaborateur@pixel.tn", role: "MEMBER" },
+  ] as const;
+
+  for (const user of users) {
+    await prisma.user.upsert({
+      where: { id: user.id },
+      update: {},
+      create: { ...user, passwordHash, companyId: COMPANY_ID },
     });
   }
 }
