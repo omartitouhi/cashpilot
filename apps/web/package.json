@@ -13,6 +13,7 @@
     "@cashpilot/application": "workspace:^",
     "@cashpilot/domain": "workspace:^",
     "@cashpilot/infra": "workspace:^",
+    "jose": "^6.2.18",
     "lucide-react": "^1.77.0",
     "next": "16.4.6",
     "react": "19.3.1",
