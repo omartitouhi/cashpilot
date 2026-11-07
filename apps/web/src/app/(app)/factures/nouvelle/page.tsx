@@ -1,14 +1,13 @@
 import { InvoiceForm } from "@/components/invoices/invoice-form";
 import { PageHeader } from "@/components/ui/page-header";
 import { useCases } from "@/container";
-import { getCurrentCompanyId } from "@/lib/current-company";
+import { getCurrentUser } from "@/lib/current-user";
 import { toInputDate } from "@/lib/format-date";
 
 export const dynamic = "force-dynamic";
 
 export default async function NewInvoicePage() {
-  const companyId = await getCurrentCompanyId();
-  const clients = await useCases.listClients.execute(companyId);
+  const clients = await useCases.listClients.execute(await getCurrentUser());
 
   const today = new Date();
   const in30Days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);

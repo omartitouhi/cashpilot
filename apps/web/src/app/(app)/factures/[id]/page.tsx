@@ -8,16 +8,16 @@ import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { useCases } from "@/container";
-import { getCurrentCompanyId } from "@/lib/current-company";
+import { getCurrentUser } from "@/lib/current-user";
 import { formatDate } from "@/lib/format-date";
 import { formatMoney } from "@/lib/format-money";
 
 export const dynamic = "force-dynamic";
 
 async function loadInvoice(invoiceId: string) {
-  const companyId = await getCurrentCompanyId();
+  const user = await getCurrentUser();
   try {
-    return await useCases.getInvoice.execute({ companyId, invoiceId });
+    return await useCases.getInvoice.execute(user, invoiceId);
   } catch (error) {
     if (error instanceof NotFoundError) notFound();
     throw error;
