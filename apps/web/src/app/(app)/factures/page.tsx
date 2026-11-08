@@ -1,5 +1,7 @@
+import { can } from "@cashpilot/application";
 import { FileText, Plus } from "lucide-react";
 import { InvoiceTable } from "@/components/invoices/invoice-table";
+import { AccessDenied } from "@/components/ui/access-denied";
 import { ButtonLink } from "@/components/ui/button-link";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
@@ -10,6 +12,8 @@ export const dynamic = "force-dynamic";
 
 export default async function InvoicesPage() {
   const user = await getCurrentUser();
+  if (!can(user.role, "invoices:view")) return <AccessDenied />;
+
   const [invoices, clients] = await Promise.all([
     useCases.listInvoices.execute(user),
     useCases.listClients.execute(user),
