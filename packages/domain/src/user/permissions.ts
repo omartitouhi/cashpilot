@@ -1,17 +1,32 @@
 /**
  * Les trois rôles du sujet :
- * - OWNER   : dirigeant, il a tous les droits
- * - FINANCE : gestionnaire financier, il gère factures et paiements
- * - MEMBER  : collaborateur, il soumet des dépenses (module à venir)
+ * - OWNER   : dirigeant, il a tous les droits et approuve les dépenses
+ * - FINANCE : gestionnaire financier, il gère factures, paiements et paie les dépenses
+ * - MEMBER  : collaborateur, il soumet des dépenses et suit ses demandes
  */
 export type Role = "OWNER" | "FINANCE" | "MEMBER";
 
-export type Permission = "invoices:view" | "invoices:manage" | "members:manage";
+export type Permission =
+  | "invoices:view"
+  | "invoices:manage"
+  | "members:manage"
+  | "expenses:submit"
+  | "expenses:view-all" // sinon, on ne voit que ses propres dépenses
+  | "expenses:approve"
+  | "expenses:pay";
 
 const PERMISSIONS: Record<Role, Permission[]> = {
-  OWNER: ["invoices:view", "invoices:manage", "members:manage"],
-  FINANCE: ["invoices:view", "invoices:manage"],
-  MEMBER: [],
+  OWNER: [
+    "invoices:view",
+    "invoices:manage",
+    "members:manage",
+    "expenses:submit",
+    "expenses:view-all",
+    "expenses:approve",
+    "expenses:pay",
+  ],
+  FINANCE: ["invoices:view", "invoices:manage", "expenses:submit", "expenses:view-all", "expenses:pay"],
+  MEMBER: ["expenses:submit"],
 };
 
 /** Vrai si ce rôle a cette permission. */
