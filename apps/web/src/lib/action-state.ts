@@ -4,6 +4,7 @@ import { z } from "zod";
 /** Ce qu'une Server Action renvoie au formulaire en cas de problème. */
 export type ActionState = {
   message?: string; // erreur générale (règle métier)
+  success?: string; // confirmation affichée après une réussite
   fieldErrors?: Record<string, string[] | undefined>; // erreurs par champ
   values?: Record<string, string>; // valeurs saisies, pour ne pas les perdre
 };
