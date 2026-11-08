@@ -18,7 +18,7 @@ export default async function TeamPage() {
   return (
     <>
       <PageHeader title="Équipe" description="Les membres de votre entreprise et leurs droits." />
-      <div className="grid gap-6 lg:grid-cols-[1fr_22rem] lg:items-start">
+      <div className="grid gap-6 xl:grid-cols-[1fr_22rem] xl:items-start">
         <MemberTable members={members} />
         <Card title="Ajouter un membre">
           <AddMemberForm />
