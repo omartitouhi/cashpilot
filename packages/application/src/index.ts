@@ -1,5 +1,7 @@
 // Ports
 export type { ClientRepository } from "./ports/client-repository";
+export type { ExpenseRepository } from "./ports/expense-repository";
+export type { ReceiptFile, ReceiptStorage } from "./ports/receipt-storage";
 export type { Clock } from "./ports/clock";
 export type { CompanyRepository } from "./ports/company-repository";
 export type { PasswordHasher } from "./ports/password-hasher";
@@ -22,6 +24,18 @@ export { Login, type LoginInput } from "./auth/login";
 export type { SessionUser } from "./auth/session-user";
 export { AddMember, type AddMemberInput } from "./team/add-member";
 export { ListMembers, type MemberView } from "./team/list-members";
+
+// Dépenses
+export { SubmitExpense, type SubmitExpenseInput } from "./expense/submit-expense";
+export { ListExpenses } from "./expense/list-expenses";
+export { GetExpense } from "./expense/get-expense";
+export { ApproveExpense } from "./expense/approve-expense";
+export { RejectExpense } from "./expense/reject-expense";
+export { PayExpense, type PayExpenseInput } from "./expense/pay-expense";
+export { GetReceipt } from "./expense/get-receipt";
+export type { ExpenseView } from "./expense/expense-view";
+export { RECEIPT_MAX_BYTES, RECEIPT_TYPES } from "./expense/receipt-rules";
+export { EXPENSE_CATEGORIES, type ExpenseCategory, type ExpenseStatus } from "@cashpilot/domain";
 
 // Clients
 export { ListClients, type ClientView } from "./client/list-clients";
