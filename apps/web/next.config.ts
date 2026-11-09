@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
     "@cashpilot/infra",
     "@cashpilot/db",
   ],
+  // Justificatif de 2 Mo maximum + les champs du formulaire.
+  experimental: { serverActions: { bodySizeLimit: "3mb" } },
 };
 
 export default nextConfig;
