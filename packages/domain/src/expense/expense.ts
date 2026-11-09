@@ -60,6 +60,11 @@ export class Expense {
     return this.props.status;
   }
 
+  attachReceipt(receiptId: string): void {
+    this.assertSubmitted();
+    this.props = { ...this.props, receiptId };
+  }
+
   approve(userId: string, now: Date): void {
     this.assertSubmitted();
     this.props = { ...this.props, status: "APPROVED", decidedBy: userId, decidedAt: now };
