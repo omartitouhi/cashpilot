@@ -39,9 +39,9 @@ Entreprise « Agence Pixel » (solde initial 5 000 DT). Mot de passe : `demo1234
 
 | Rôle | Email | Droits |
 |---|---|---|
-| Dirigeant | dirigeant@pixel.tn | tout, dont la gestion de l'équipe |
-| Gestionnaire financier | finance@pixel.tn | factures et paiements |
-| Collaborateur | collaborateur@pixel.tn | dépenses (module à venir) |
+| Dirigeant | dirigeant@pixel.tn | tout : équipe, approbation des dépenses |
+| Gestionnaire financier | finance@pixel.tn | factures, encaissements, paiement des dépenses |
+| Collaborateur | collaborateur@pixel.tn | soumet des dépenses et suit les siennes |
 
 ## Commandes utiles
 
@@ -54,7 +54,8 @@ pnpm build       # build de production
 ## Limites connues
 
 - Un utilisateur appartient à une seule entreprise.
-- Modules à venir : dépenses, trésorerie, prévisions, simulation.
+- Les justificatifs (PDF ou image, 2 Mo max) sont stockés en base.
+- Modules à venir : trésorerie, prévisions, simulation.
 
 ## Utilisation d'outils d'IA
 
