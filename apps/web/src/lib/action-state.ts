@@ -9,9 +9,10 @@ export type ActionState = {
   values?: Record<string, string>; // valeurs saisies, pour ne pas les perdre
 };
 
-/** Les valeurs texte d'un formulaire. */
+/** Les valeurs texte d'un formulaire (les fichiers sont ignorés). */
 export function formValues(formData: FormData): Record<string, string> {
-  return Object.fromEntries(formData) as Record<string, string>;
+  const entries = [...formData.entries()].filter(([, value]) => typeof value === "string");
+  return Object.fromEntries(entries) as Record<string, string>;
 }
 
 /** Erreurs de validation Zod, champ par champ. */
