@@ -13,7 +13,8 @@ export type Permission =
   | "expenses:submit"
   | "expenses:view-all" // sinon, on ne voit que ses propres dépenses
   | "expenses:approve"
-  | "expenses:pay";
+  | "expenses:pay"
+  | "treasury:view";
 
 const PERMISSIONS: Record<Role, Permission[]> = {
   OWNER: [
@@ -24,8 +25,16 @@ const PERMISSIONS: Record<Role, Permission[]> = {
     "expenses:view-all",
     "expenses:approve",
     "expenses:pay",
+    "treasury:view",
   ],
-  FINANCE: ["invoices:view", "invoices:manage", "expenses:submit", "expenses:view-all", "expenses:pay"],
+  FINANCE: [
+    "invoices:view",
+    "invoices:manage",
+    "expenses:submit",
+    "expenses:view-all",
+    "expenses:pay",
+    "treasury:view",
+  ],
   MEMBER: ["expenses:submit"],
 };
 
