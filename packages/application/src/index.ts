@@ -37,6 +37,10 @@ export type { ExpenseView } from "./expense/expense-view";
 export { RECEIPT_MAX_BYTES, RECEIPT_TYPES } from "./expense/receipt-rules";
 export { EXPENSE_CATEGORIES, type ExpenseCategory, type ExpenseStatus } from "@cashpilot/domain";
 
+// Trésorerie et tableau de bord
+export { GetTreasury, type TreasuryView } from "./treasury/get-treasury";
+export { GetDashboard, type DashboardView } from "./treasury/get-dashboard";
+
 // Clients
 export { ListClients, type ClientView } from "./client/list-clients";
 
