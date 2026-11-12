@@ -22,7 +22,7 @@ export type ScenarioParams = z.infer<typeof ScenarioSchema>;
 /** Lit les hypothèses de l'URL. Des valeurs invalides donnent un scénario vide. */
 export function readScenario(searchParams: Record<string, string | string[] | undefined>) {
   const parsed = ScenarioSchema.safeParse(searchParams);
-  const p: ScenarioParams = parsed.success ? parsed.data : {};
+  const p: Partial<ScenarioParams> = parsed.success ? parsed.data : {};
   const scenario: ScenarioInput = { extras: [] };
 
   if (p.delayInvoice && p.delayDays) scenario.delay = { invoiceId: p.delayInvoice, days: p.delayDays };
