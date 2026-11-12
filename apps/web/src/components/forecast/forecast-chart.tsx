@@ -10,6 +10,7 @@ const W = 720;
 const H = 260;
 const PAD = { left: 72, right: 16, top: 16, bottom: 28 };
 const COLORS = { base: "#14a38b", simulated: "#6366f1" }; // palette validée (daltonisme, contraste)
+const compact = new Intl.NumberFormat("fr-FR", { notation: "compact", maximumFractionDigits: 1 });
 
 type Props = { base: Point[]; simulated: Point[] | null };
 
@@ -43,12 +44,13 @@ export function ForecastChart({ base, simulated }: Props) {
       )}
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" onMouseMove={onMove} onMouseLeave={() => setHover(null)}
         role="img" aria-label="Évolution du solde prévu sur 90 jours">
-        {[max, 0, min].filter((v, i, a) => a.indexOf(v) === i).map((v) => (
+        {/* Repères : max, 0 et min, sauf s'ils chevauchent la ligne zéro. */}
+        {[max, 0, min].filter((v) => v === 0 || Math.abs(y(v) - y(0)) > 16).map((v) => (
           <g key={v}>
             <line x1={PAD.left} x2={W - PAD.right} y1={y(v)} y2={y(v)}
               stroke={v === 0 ? "#94a3b8" : "#e2e8f0"} strokeDasharray={v === 0 ? "4 4" : undefined} />
             <text x={PAD.left - 8} y={y(v) + 4} textAnchor="end" className="fill-slate-500 text-[11px]">
-              {formatMoney(v).replace(",000", "")}
+              {compact.format(v / 1000)} DT
             </text>
           </g>
         ))}
