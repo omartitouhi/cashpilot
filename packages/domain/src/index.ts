@@ -14,6 +14,14 @@ export {
   type Movement,
   type MovementWithBalance,
 } from "./treasury/movement";
+export {
+  effectiveDate,
+  negativePeriods,
+  projectBalance,
+  type ExpectedFlow,
+  type ForecastPoint,
+} from "./forecast/projection";
+export { applyScenario, type Hypothesis } from "./forecast/scenario";
 export { Invoice, type InvoiceProps, type NewInvoice } from "./invoice/invoice";
 export type { InvoiceStatus } from "./invoice/invoice-status";
 export type { Payment } from "./invoice/payment";
