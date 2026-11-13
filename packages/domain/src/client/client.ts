@@ -5,6 +5,7 @@ export type ClientProps = {
   companyId: string;
   name: string;
   email: string | null;
+  phone: string | null;
 };
 
 /** Un client de l'agence, à qui on adresse des factures. */

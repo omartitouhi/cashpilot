@@ -46,6 +46,7 @@ model Client {
   companyId String
   name      String
   email     String?
+  phone     String?
   createdAt DateTime  @default(now())
   company   Company   @relation(fields: [companyId], references: [id])
   invoices  Invoice[]
