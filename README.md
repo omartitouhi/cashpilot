@@ -56,7 +56,9 @@ pnpm build       # build de production
 - Un utilisateur appartient à une seule entreprise.
 - Les justificatifs (PDF ou image, 2 Mo max) sont stockés en base.
 - Le solde réel est calculé à partir des paiements reçus et des dépenses payées (aucune copie des montants).
-- Modules à venir : prévisions à 30/60/90 jours, simulation « What if? ».
+- Prévision : reste à payer des factures validées à leur échéance, dépenses approuvées non payées
+  à leur date ; un flux en retard est attendu dès aujourd'hui. Les dépenses encore à valider ne sont pas comptées.
+- Simulation « What if? » : les hypothèses passent dans l'URL, rien n'est enregistré en base.
 
 ## Utilisation d'outils d'IA
 
