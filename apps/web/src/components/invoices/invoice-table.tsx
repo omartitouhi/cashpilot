@@ -6,7 +6,7 @@ import { InvoiceStatusBadge } from "./invoice-status-badge";
 
 type Props = {
   invoices: InvoiceView[];
-  clientNames: Map<string, string>;
+  clientNames?: Map<string, string>; // absent : la colonne Client est masquée (fiche client)
 };
 
 export function InvoiceTable({ invoices, clientNames }: Props) {
@@ -16,7 +16,7 @@ export function InvoiceTable({ invoices, clientNames }: Props) {
         <thead className="border-b border-slate-200 text-left text-slate-500">
           <tr>
             <th className="px-4 py-3 font-medium">Numéro</th>
-            <th className="px-4 py-3 font-medium">Client</th>
+            {clientNames && <th className="px-4 py-3 font-medium">Client</th>}
             <th className="px-4 py-3 font-medium">Échéance</th>
             <th className="px-4 py-3 text-right font-medium">Montant</th>
             <th className="px-4 py-3 text-right font-medium">Reste à payer</th>
@@ -31,7 +31,7 @@ export function InvoiceTable({ invoices, clientNames }: Props) {
                   {invoice.number}
                 </Link>
               </td>
-              <td className="px-4 py-3">{clientNames.get(invoice.clientId)}</td>
+              {clientNames && <td className="px-4 py-3">{clientNames.get(invoice.clientId)}</td>}
               <td className="px-4 py-3 text-slate-500">{formatDate(invoice.dueDate)}</td>
               <td className="px-4 py-3 text-right tabular-nums">{formatMoney(invoice.amount)}</td>
               <td className="px-4 py-3 text-right tabular-nums">{formatMoney(invoice.remaining)}</td>
