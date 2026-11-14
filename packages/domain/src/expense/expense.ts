@@ -12,6 +12,7 @@ export type ExpenseProps = {
   amount: Money;
   date: Date; // date à laquelle la dépense doit être payée
   receiptId: string | null; // justificatif (facultatif)
+  supplierId: string | null; // fournisseur payé (facultatif)
   status: ExpenseStatus;
   // Traçabilité : qui a décidé ou payé, et quand.
   decidedBy: string | null;
@@ -23,7 +24,7 @@ export type ExpenseProps = {
 
 export type NewExpense = Pick<
   ExpenseProps,
-  "id" | "companyId" | "submittedBy" | "label" | "category" | "amount" | "date" | "receiptId"
+  "id" | "companyId" | "submittedBy" | "label" | "category" | "amount" | "date" | "receiptId" | "supplierId"
 >;
 
 export class Expense {
