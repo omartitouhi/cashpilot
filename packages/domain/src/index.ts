@@ -1,6 +1,6 @@
 export { DomainError } from "./shared/domain-error";
 export { Money } from "./shared/money";
-export { Client, type ClientProps } from "./client/client";
+export { Client, type ClientProps, type PartnerKind } from "./client/client";
 export { can, ROLE_LABELS, type Permission, type Role } from "./user/permissions";
 export { User, type UserProps } from "./user/user";
 export { assertValidPassword } from "./user/password-policy";
