@@ -24,6 +24,6 @@ export const fakeHasher: PasswordHasher = {
 /** Repository contenant un seul client, rattaché à l'entreprise donnée. */
 export async function clientsWithOne(companyId: string, clientId: string) {
   const clients = new InMemoryClientRepository();
-  await clients.save(Client.create({ id: clientId, companyId, name: "Client test", email: null, phone: null }));
+  await clients.save(Client.create({ id: clientId, companyId, kind: "CLIENT", name: "Client test", email: null, phone: null }));
   return clients;
 }
