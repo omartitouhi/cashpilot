@@ -32,7 +32,7 @@ async function scenario() {
   await new ValidateInvoice(invoices).execute(finance, invoiceId);
   await new RecordPayment(invoices, ids).execute(finance, { invoiceId, amount: 1000, date: new Date("2026-02-20") });
 
-  const submit = new SubmitExpense(expenses, new InMemoryReceiptStorage(), ids);
+  const submit = new SubmitExpense(expenses, new InMemoryReceiptStorage(), ids, clients);
   const expense = { category: "SOFTWARE" as const, date: new Date("2026-03-05"), receipt: null };
   const paid = await submit.execute(member, { ...expense, label: "Figma", amount: 450.5 });
   await new ApproveExpense(expenses, clock).execute(owner, paid.id);
