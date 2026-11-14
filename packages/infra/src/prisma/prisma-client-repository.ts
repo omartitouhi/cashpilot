@@ -3,7 +3,8 @@ import { prisma, type Client as ClientRow } from "@cashpilot/db";
 import { Client } from "@cashpilot/domain";
 
 function toDomain(row: ClientRow): Client {
-  return Client.restore({ id: row.id, companyId: row.companyId, name: row.name, email: row.email, phone: row.phone });
+  const { id, companyId, kind, name, email, phone } = row;
+  return Client.restore({ id, companyId, kind, name, email, phone });
 }
 
 export class PrismaClientRepository implements ClientRepository {
