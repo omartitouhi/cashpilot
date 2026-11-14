@@ -1,7 +1,8 @@
 import type { ClientView } from "@cashpilot/application";
 import Link from "next/link";
 
-export function ClientTable({ clients }: { clients: ClientView[] }) {
+/** basePath : « /clients » ou « /fournisseurs », pour le lien vers la fiche. */
+export function ClientTable({ clients, basePath }: { clients: ClientView[]; basePath: string }) {
   return (
     <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
       <table className="w-full text-sm whitespace-nowrap">
@@ -16,7 +17,7 @@ export function ClientTable({ clients }: { clients: ClientView[] }) {
           {clients.map((client) => (
             <tr key={client.id} className="hover:bg-slate-50">
               <td className="px-4 py-3 font-medium">
-                <Link href={`/clients/${client.id}`} className="text-brand-700 hover:underline">
+                <Link href={`${basePath}/${client.id}`} className="text-brand-700 hover:underline">
                   {client.name}
                 </Link>
               </td>
