@@ -14,6 +14,7 @@ import {
   CreateClient,
   GetClient,
   CreateInvoice,
+  ExportInvoicePdf,
   GetInvoice,
   ListClients,
   ListInvoices,
@@ -25,6 +26,7 @@ import {
 } from "@cashpilot/application";
 import {
   BcryptPasswordHasher,
+  PdfLibInvoiceRenderer,
   PrismaClientRepository,
   PrismaCompanyRepository,
   PrismaExpenseRepository,
@@ -67,6 +69,7 @@ export const useCases = {
   getClient: new GetClient(clients, invoices, expenses, users, clock),
   listInvoices: new ListInvoices(invoices, clock),
   getInvoice: new GetInvoice(invoices, clock),
+  exportInvoicePdf: new ExportInvoicePdf(invoices, clients, companies, new PdfLibInvoiceRenderer(), clock),
   createInvoice: new CreateInvoice(invoices, clients, ids),
   validateInvoice: new ValidateInvoice(invoices),
   cancelInvoice: new CancelInvoice(invoices),
