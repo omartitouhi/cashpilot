@@ -54,7 +54,8 @@ pnpm build       # build de production
 ## Limites connues
 
 - Un utilisateur appartient à une seule entreprise.
-- Les fournisseurs ne sont pas encore gérés : une dépense n'est pas rattachée à un fournisseur.
+- Clients et fournisseurs partagent la même table (champ `kind`). Une dépense peut viser un fournisseur ;
+  on ne peut pas facturer un fournisseur.
 - Les justificatifs (PDF ou image, 2 Mo max) sont stockés en base.
 - Le solde réel est calculé à partir des paiements reçus et des dépenses payées (aucune copie des montants).
 - Prévision : reste à payer des factures validées à leur échéance, dépenses approuvées non payées
