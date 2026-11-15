@@ -1,4 +1,4 @@
-import { Banknote, CircleCheck, Clock } from "lucide-react";
+import { Banknote, CircleCheck, Clock, Download } from "lucide-react";
 import { notFound } from "next/navigation";
 import { can, NotFoundError, type SessionUser } from "@cashpilot/application";
 import { InvoiceActions } from "@/components/invoices/invoice-actions";
@@ -36,7 +36,17 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
       <PageHeader
         title={`Facture ${invoice.number}`}
         description={`Émise le ${formatDate(invoice.issueDate)} · échéance le ${formatDate(invoice.dueDate)}`}
-        action={<InvoiceStatusBadge invoice={invoice} />}
+        action={
+          <div className="flex items-center gap-3">
+            <InvoiceStatusBadge invoice={invoice} />
+            <a
+              href={`/factures/${invoice.id}/pdf`}
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium hover:bg-slate-50"
+            >
+              <Download className="size-4" /> PDF
+            </a>
+          </div>
+        }
       />
 
       <section className="grid gap-4 sm:grid-cols-3">
