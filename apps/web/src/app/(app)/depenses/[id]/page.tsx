@@ -33,7 +33,11 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 export default async function ExpensePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await getCurrentUser();
-  const expense = await loadExpense(user, id);
+  const [expense, suppliers] = await Promise.all([
+    loadExpense(user, id),
+    useCases.listClients.execute(user, "SUPPLIER"),
+  ]);
+  const supplier = suppliers.find((s) => s.id === expense.supplierId);
 
   return (
     <>
@@ -47,6 +51,7 @@ export default async function ExpensePage({ params }: { params: Promise<{ id: st
           <dl className="divide-y divide-slate-100">
             <Row label="Montant">{formatMoney(expense.amount)}</Row>
             <Row label="Catégorie">{EXPENSE_CATEGORIES[expense.category]}</Row>
+            <Row label="Fournisseur">{supplier?.name ?? "Aucun"}</Row>
             <Row label="Date de paiement prévue">{formatDate(expense.date)}</Row>
             <Row label="Justificatif">
               {expense.hasReceipt ? (
