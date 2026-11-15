@@ -13,7 +13,8 @@
     "@cashpilot/application": "workspace:^",
     "@cashpilot/db": "workspace:^",
     "@cashpilot/domain": "workspace:^",
-    "bcryptjs": "^3.0.3"
+    "bcryptjs": "^3.0.3",
+    "pdf-lib": "^1.17.1"
   },
   "devDependencies": {
     "@cashpilot/config": "workspace:^",

@@ -4,6 +4,7 @@ export { PrismaExpenseRepository } from "./prisma/prisma-expense-repository";
 export { PrismaInvoiceRepository } from "./prisma/prisma-invoice-repository";
 export { PrismaReceiptStorage } from "./prisma/prisma-receipt-storage";
 export { PrismaUserRepository } from "./prisma/prisma-user-repository";
+export { PdfLibInvoiceRenderer } from "./pdf/pdf-lib-invoice-renderer";
 export { BcryptPasswordHasher } from "./system/bcrypt-password-hasher";
 export { SystemClock } from "./system/system-clock";
 export { UuidGenerator } from "./system/uuid-generator";
