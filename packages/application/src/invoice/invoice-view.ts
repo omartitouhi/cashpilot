@@ -12,7 +12,8 @@ export type InvoiceView = {
   issueDate: Date;
   dueDate: Date;
   isOverdue: boolean;
-  payments: { id: string; amount: number; date: Date }[]; // montants en millimes
+  // montants en millimes ; une correction est négative et indique le paiement annulé
+  payments: { id: string; amount: number; date: Date; reversalOf: string | null; reason: string | null }[];
 };
 
 export function toInvoiceView(invoice: Invoice, today: Date): InvoiceView {
@@ -28,6 +29,12 @@ export function toInvoiceView(invoice: Invoice, today: Date): InvoiceView {
     issueDate: data.issueDate,
     dueDate: data.dueDate,
     isOverdue: invoice.isOverdue(today),
-    payments: data.payments.map((p) => ({ id: p.id, amount: p.amount.millimes, date: p.date })),
+    payments: data.payments.map((p) => ({
+      id: p.id,
+      amount: p.amount.millimes,
+      date: p.date,
+      reversalOf: p.reversalOf ?? null,
+      reason: p.reason ?? null,
+    })),
   };
 }
