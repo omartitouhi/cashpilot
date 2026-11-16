@@ -51,6 +51,22 @@ export async function cancelInvoiceAction(invoiceId: string): Promise<ActionStat
   return {};
 }
 
+export async function reversePaymentAction(
+  invoiceId: string,
+  paymentId: string,
+  _: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const reason = String(formData.get("reason") ?? "");
+  try {
+    await useCases.reversePayment.execute(await getCurrentUser(), { invoiceId, paymentId, reason });
+  } catch (error) {
+    return fromBusinessError(error);
+  }
+  refresh(invoiceId);
+  return {};
+}
+
 export async function recordPaymentAction(
   invoiceId: string,
   _: ActionState,
