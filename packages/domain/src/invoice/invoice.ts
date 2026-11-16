@@ -78,6 +78,31 @@ export class Invoice {
     }
   }
 
+  /**
+   * Corrige un paiement saisi par erreur sans l'effacer :
+   * on ajoute l'opération inverse, avec son motif. L'historique garde les deux.
+   */
+  reversePayment(paymentId: string, correction: { id: string; date: Date; reason: string }): void {
+    const payment = this.props.payments.find((p) => p.id === paymentId);
+    if (!payment || payment.reversalOf) {
+      throw new DomainError("PAIEMENT_INTROUVABLE", "Ce paiement ne peut pas être corrigé.");
+    }
+    if (this.props.payments.some((p) => p.reversalOf === paymentId)) {
+      throw new DomainError("PAIEMENT_DEJA_CORRIGE", "Ce paiement a déjà été annulé.");
+    }
+    if (correction.reason.trim().length < 3) {
+      throw new DomainError("MOTIF_OBLIGATOIRE", "Indiquez le motif de la correction.");
+    }
+    this.props.payments.push({
+      id: correction.id,
+      amount: Money.zero().subtract(payment.amount),
+      date: correction.date,
+      reversalOf: paymentId,
+      reason: correction.reason.trim(),
+    });
+    if (this.props.status === "PAID") this.props.status = "ISSUED";
+  }
+
   paidAmount(): Money {
     return this.props.payments.reduce((total, p) => total.add(p.amount), Money.zero());
   }

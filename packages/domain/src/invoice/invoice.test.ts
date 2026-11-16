@@ -49,6 +49,27 @@ describe("Invoice", () => {
     expect(() => pay(draftInvoice(), 100)).toThrow("Cette facture ne peut pas recevoir de paiement.");
   });
 
+  it("corrige un paiement par une opération inverse, sans l'effacer", () => {
+    const invoice = issuedInvoice(3000);
+    invoice.recordPayment({ id: "p1", amount: Money.fromDinars(3000), date: new Date() });
+    expect(invoice.status).toBe("PAID");
+
+    invoice.reversePayment("p1", { id: "r1", date: new Date(), reason: "Saisi sur la mauvaise facture" });
+
+    expect(invoice.status).toBe("ISSUED");
+    expect(invoice.remainingAmount().toDinars()).toBe(3000);
+    expect(invoice.snapshot().payments).toHaveLength(2); // l'erreur et sa correction restent visibles
+  });
+
+  it("ne corrige pas deux fois le même paiement", () => {
+    const invoice = issuedInvoice(3000);
+    invoice.recordPayment({ id: "p1", amount: Money.fromDinars(100), date: new Date() });
+    invoice.reversePayment("p1", { id: "r1", date: new Date(), reason: "Erreur" });
+    expect(() => invoice.reversePayment("p1", { id: "r2", date: new Date(), reason: "Erreur" })).toThrow(
+      "Ce paiement a déjà été annulé.",
+    );
+  });
+
   it("refuse d'annuler une facture qui a des paiements", () => {
     const invoice = issuedInvoice(3000);
     pay(invoice, 100);
