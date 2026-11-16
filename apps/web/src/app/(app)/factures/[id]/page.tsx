@@ -57,7 +57,10 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <Card title="Paiements reçus">
-          <PaymentList payments={invoice.payments} />
+          <PaymentList
+            payments={invoice.payments}
+            invoiceId={can(user.role, "invoices:manage") ? invoice.id : undefined}
+          />
         </Card>
         <Card title="Actions">
           <InvoiceActions invoice={invoice} />
