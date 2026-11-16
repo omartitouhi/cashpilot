@@ -19,6 +19,8 @@ export const InvoiceMapper = {
         id: p.id,
         amount: Money.fromDinars(p.amount.toNumber()),
         date: p.date,
+        reversalOf: p.reversalOf ?? undefined,
+        reason: p.reason ?? undefined,
       })),
     });
   },
@@ -43,6 +45,8 @@ export const InvoiceMapper = {
       invoiceId: invoice.id,
       amount: p.amount.toDinars(),
       date: p.date,
+      reversalOf: p.reversalOf ?? null,
+      reason: p.reason ?? null,
     }));
   },
 };
