@@ -2,6 +2,9 @@
   "name": "cashpilot",
   "private": true,
   "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=22 <25"
+  },
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
