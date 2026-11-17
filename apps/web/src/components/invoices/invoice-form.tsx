@@ -2,17 +2,19 @@
 
 import { useActionState } from "react";
 import { createInvoiceAction } from "@/app/(app)/factures/actions";
+import { ProjectSelect } from "@/components/projects/project-select";
 import { Field, inputClass } from "@/components/ui/field";
 import { FormMessage } from "@/components/ui/form-message";
 import { SubmitButton } from "@/components/ui/submit-button";
 
 type Props = {
   clients: { id: string; name: string }[];
+  projects: { id: string; name: string }[];
   defaultIssueDate: string; // AAAA-MM-JJ
   defaultDueDate: string;
 };
 
-export function InvoiceForm({ clients, defaultIssueDate, defaultDueDate }: Props) {
+export function InvoiceForm({ clients, projects, defaultIssueDate, defaultDueDate }: Props) {
   const [state, formAction] = useActionState(createInvoiceAction, {});
   const values = state.values ?? {};
   const errors = state.fieldErrors ?? {};
@@ -35,6 +37,8 @@ export function InvoiceForm({ clients, defaultIssueDate, defaultDueDate }: Props
           ))}
         </select>
       </Field>
+
+      <ProjectSelect projects={projects} defaultValue={values.projectId} errors={errors.projectId} />
 
       <Field label="Montant (DT)" name="amount" errors={errors.amount}>
         <input id="amount" name="amount" type="number" min="0.001" step="0.001" required

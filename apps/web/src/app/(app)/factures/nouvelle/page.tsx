@@ -12,7 +12,11 @@ export default async function NewInvoicePage() {
   const user = await getCurrentUser();
   if (!can(user.role, "invoices:manage")) return <AccessDenied />;
 
-  const clients = await useCases.listClients.execute(user);
+  const [clients, projects] = await Promise.all([
+    useCases.listClients.execute(user),
+    useCases.listProjectNames.execute(user),
+  ]);
+  const clientNames = new Map(clients.map((c) => [c.id, c.name]));
   const today = new Date();
   const in30Days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
 
@@ -24,6 +28,7 @@ export default async function NewInvoicePage() {
       />
       <InvoiceForm
         clients={clients.map(({ id, name }) => ({ id, name }))}
+        projects={projects.map((p) => ({ id: p.id, name: `${p.name} (${clientNames.get(p.clientId)})` }))}
         defaultIssueDate={toInputDate(today)}
         defaultDueDate={toInputDate(in30Days)}
       />
