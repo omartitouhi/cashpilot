@@ -9,6 +9,7 @@ export const SubmitExpenseSchema = z.object({
   amount: z.coerce.number().positive("Le montant doit être positif."),
   date: z.coerce.date({ error: "Date invalide." }),
   supplierId: z.string().optional().transform((v) => v || null), // « Aucun » = null
+  projectId: z.string().optional().transform((v) => v || null),
 });
 
 export const RejectExpenseSchema = z.object({

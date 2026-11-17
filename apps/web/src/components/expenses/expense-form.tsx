@@ -3,13 +3,15 @@
 import { EXPENSE_CATEGORIES, RECEIPT_TYPES } from "@cashpilot/application";
 import { useActionState } from "react";
 import { submitExpenseAction } from "@/app/(app)/depenses/actions";
+import { ProjectSelect } from "@/components/projects/project-select";
 import { Field, inputClass } from "@/components/ui/field";
 import { FormMessage } from "@/components/ui/form-message";
 import { SubmitButton } from "@/components/ui/submit-button";
 
-type Props = { defaultDate: string; suppliers: { id: string; name: string }[] };
+type Option = { id: string; name: string };
+type Props = { defaultDate: string; suppliers: Option[]; projects: Option[] };
 
-export function ExpenseForm({ defaultDate, suppliers }: Props) {
+export function ExpenseForm({ defaultDate, suppliers, projects }: Props) {
   const [state, formAction] = useActionState(submitExpenseAction, {});
   const values = state.values ?? {};
   const errors = state.fieldErrors ?? {};
@@ -43,6 +45,8 @@ export function ExpenseForm({ defaultDate, suppliers }: Props) {
           ))}
         </select>
       </Field>
+
+      <ProjectSelect projects={projects} defaultValue={values.projectId} />
 
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Montant (DT)" name="amount" errors={errors.amount}>
