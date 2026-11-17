@@ -33,13 +33,14 @@ export class GetTreasury {
 
     const initial = company.snapshot().initialBalance;
     const history = withRunningBalance(initial, realizedMovements(invoices, expenses));
-    const amounts = history.map((m) => m.amount.millimes);
+    const total = (direction: "IN" | "OUT") =>
+      history.filter((m) => m.direction === direction).reduce((sum, m) => sum + m.amount.millimes, 0);
 
     return {
       initialBalance: initial.millimes,
       balance: history.at(-1)?.balanceAfter.millimes ?? initial.millimes,
-      totalIn: amounts.filter((a) => a > 0).reduce((sum, a) => sum + a, 0),
-      totalOut: -amounts.filter((a) => a < 0).reduce((sum, a) => sum + a, 0),
+      totalIn: total("IN"), // net des corrections d'encaissement
+      totalOut: -total("OUT"),
       movements: history.reverse().map((m) => ({
         id: m.id,
         date: m.date,

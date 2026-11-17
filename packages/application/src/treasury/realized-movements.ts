@@ -13,13 +13,14 @@ export function realizedMovements(invoices: Invoice[], expenses: Expense[]): Mov
       date: p.date,
       label: p.reversalOf ? `Correction ${number} : ${p.reason}` : `Encaissement ${number}`,
       amount: p.amount,
+      direction: "IN" as const,
     }));
   });
 
   const paid = expenses
     .map((expense) => expense.snapshot())
     .filter((e) => e.status === "PAID")
-    .map((e) => ({ id: e.id, date: e.paidAt ?? e.date, label: e.label, amount: Money.zero().subtract(e.amount) }));
+    .map((e) => ({ id: e.id, date: e.paidAt ?? e.date, label: e.label, amount: Money.zero().subtract(e.amount), direction: "OUT" as const }));
 
   return [...received, ...paid];
 }

@@ -6,6 +6,7 @@ export type Movement = {
   date: Date;
   label: string;
   amount: Money;
+  direction: "IN" | "OUT"; // encaissement (une correction d'encaissement reste IN, en négatif) ou décaissement
 };
 
 export type MovementWithBalance = Movement & { balanceAfter: Money };
