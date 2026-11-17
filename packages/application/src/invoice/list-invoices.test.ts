@@ -1,3 +1,4 @@
+import { InMemoryProjectRepository } from "../testing/in-memory-project-repository";
 import { describe, expect, it } from "vitest";
 import { finance, owner } from "../testing/actors";
 import { clientsWithOne, fixedClock, sequentialIds } from "../testing/fakes";
@@ -10,7 +11,7 @@ describe("ListInvoices", () => {
   it("signale une facture validée dont l'échéance est passée", async () => {
     const repo = new InMemoryInvoiceRepository();
     const clients = await clientsWithOne("co-1", "cl-1");
-    const { id } = await new CreateInvoice(repo, clients, sequentialIds()).execute(finance, {
+    const { id } = await new CreateInvoice(repo, clients, sequentialIds(), new InMemoryProjectRepository()).execute(finance, {
       clientId: "cl-1",
       amount: 1500,
       issueDate: new Date("2026-01-01"),

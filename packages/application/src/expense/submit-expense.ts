@@ -1,6 +1,8 @@
 import { Expense, Money, type ExpenseCategory } from "@cashpilot/domain";
 import type { ClientRepository } from "../ports/client-repository";
 import type { ExpenseRepository } from "../ports/expense-repository";
+import type { ProjectRepository } from "../ports/project-repository";
+import { findProject } from "../project/find-project";
 import { NotFoundError } from "../shared/not-found-error";
 import type { IdGenerator } from "../ports/id-generator";
 import type { ReceiptFile, ReceiptStorage } from "../ports/receipt-storage";
@@ -14,6 +16,7 @@ export type SubmitExpenseInput = {
   date: Date;
   receipt: ReceiptFile | null;
   supplierId?: string | null;
+  projectId?: string | null;
 };
 
 /** Un membre soumet une dépense, avec un justificatif facultatif. */
@@ -23,6 +26,7 @@ export class SubmitExpense {
     private readonly receipts: ReceiptStorage,
     private readonly ids: IdGenerator,
     private readonly suppliers: ClientRepository,
+    private readonly projects: ProjectRepository,
   ) {}
 
   async execute(actor: Actor, input: SubmitExpenseInput): Promise<{ id: string }> {
@@ -33,6 +37,8 @@ export class SubmitExpense {
       const supplier = await this.suppliers.byId(actor.companyId, supplierId);
       if (supplier?.kind !== "SUPPLIER") throw new NotFoundError("Fournisseur");
     }
+    const projectId = input.projectId ?? null;
+    if (projectId) await findProject(this.projects, actor.companyId, projectId);
 
     // On valide la dépense AVANT d'enregistrer le fichier.
     const expense = Expense.submit({
@@ -45,6 +51,7 @@ export class SubmitExpense {
       date: input.date,
       receiptId: null,
       supplierId,
+      projectId,
     });
 
     if (input.receipt) {

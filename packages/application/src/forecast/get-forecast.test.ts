@@ -1,3 +1,4 @@
+import { InMemoryProjectRepository } from "../testing/in-memory-project-repository";
 import { Company, Money } from "@cashpilot/domain";
 import { describe, expect, it } from "vitest";
 import { CreateInvoice } from "../invoice/create-invoice";
@@ -20,7 +21,7 @@ async function setup() {
   await companies.save(Company.create({ id: "co-1", name: "Pixel", initialBalance: Money.fromDinars(5000) }));
 
   const clients = await clientsWithOne("co-1", "cl-1");
-  const { id } = await new CreateInvoice(invoices, clients, ids).execute(finance, {
+  const { id } = await new CreateInvoice(invoices, clients, ids, new InMemoryProjectRepository()).execute(finance, {
     clientId: "cl-1", amount: 3000, issueDate: new Date("2026-02-20"), dueDate: new Date("2026-03-10"),
   });
   await new ValidateInvoice(invoices).execute(finance, id);

@@ -1,3 +1,4 @@
+import { InMemoryProjectRepository } from "../testing/in-memory-project-repository";
 import { Company, Money } from "@cashpilot/domain";
 import { describe, expect, it } from "vitest";
 import { ApproveExpense } from "../expense/approve-expense";
@@ -26,13 +27,13 @@ async function scenario() {
   await companies.save(Company.create({ id: "co-1", name: "Pixel", initialBalance: Money.fromDinars(5000) }));
 
   const clients = await clientsWithOne("co-1", "cl-1");
-  const { id: invoiceId } = await new CreateInvoice(invoices, clients, ids).execute(finance, {
+  const { id: invoiceId } = await new CreateInvoice(invoices, clients, ids, new InMemoryProjectRepository()).execute(finance, {
     clientId: "cl-1", amount: 3000, issueDate: new Date("2026-02-01"), dueDate: new Date("2026-02-15"),
   });
   await new ValidateInvoice(invoices).execute(finance, invoiceId);
   await new RecordPayment(invoices, ids).execute(finance, { invoiceId, amount: 1000, date: new Date("2026-02-20") });
 
-  const submit = new SubmitExpense(expenses, new InMemoryReceiptStorage(), ids, clients);
+  const submit = new SubmitExpense(expenses, new InMemoryReceiptStorage(), ids, clients, new InMemoryProjectRepository());
   const expense = { category: "SOFTWARE" as const, date: new Date("2026-03-05"), receipt: null };
   const paid = await submit.execute(member, { ...expense, label: "Figma", amount: 450.5 });
   await new ApproveExpense(expenses, clock).execute(owner, paid.id);
