@@ -21,6 +21,12 @@ export type ExpenseProps = {
   rejectionReason: string | null;
   paidBy: string | null;
   paidAt: Date | null;
+  // Correction d'un paiement erroné : le paiement annulé reste tracé ici (une seule fois).
+  reversedPaidBy: string | null;
+  reversedPaidAt: Date | null;
+  reversedBy: string | null;
+  reversedAt: Date | null;
+  reversalReason: string | null;
 };
 
 export type NewExpense = Pick<
@@ -47,6 +53,11 @@ export class Expense {
       rejectionReason: null,
       paidBy: null,
       paidAt: null,
+      reversedPaidBy: null,
+      reversedPaidAt: null,
+      reversedBy: null,
+      reversedAt: null,
+      reversalReason: null,
     });
   }
 
@@ -98,6 +109,33 @@ export class Expense {
       throw new DomainError("DEPENSE_NON_APPROUVEE", "La dépense doit d'abord être approuvée.");
     }
     this.props = { ...this.props, status: "PAID", paidBy: userId, paidAt };
+  }
+
+  /**
+   * Annule un paiement enregistré par erreur, sans l'effacer : il est conservé dans les
+   * champs « reversed… » avec le motif, et la dépense redevient approuvée (à payer).
+   */
+  reversePayment(userId: string, reason: string, now: Date): void {
+    if (this.props.status !== "PAID") {
+      throw new DomainError("DEPENSE_NON_PAYEE", "Seule une dépense payée peut être corrigée.");
+    }
+    if (this.props.reversedAt) {
+      throw new DomainError("DEPENSE_DEJA_CORRIGEE", "Le paiement de cette dépense a déjà été corrigé une fois.");
+    }
+    if (reason.trim().length < 3) {
+      throw new DomainError("MOTIF_OBLIGATOIRE", "Indiquez le motif de la correction.");
+    }
+    this.props = {
+      ...this.props,
+      status: "APPROVED",
+      reversedPaidBy: this.props.paidBy,
+      reversedPaidAt: this.props.paidAt,
+      reversedBy: userId,
+      reversedAt: now,
+      reversalReason: reason.trim(),
+      paidBy: null,
+      paidAt: null,
+    };
   }
 
   snapshot(): ExpenseProps {
