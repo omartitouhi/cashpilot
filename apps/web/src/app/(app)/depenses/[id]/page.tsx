@@ -68,6 +68,12 @@ export default async function ExpensePage({ params }: { params: Promise<{ id: st
               </Row>
             )}
             {expense.rejectionReason && <Row label="Motif">{expense.rejectionReason}</Row>}
+            {expense.reversal && (
+              <Row label="Paiement annulé">
+                {expense.reversal.paidAt && `payé le ${formatDate(expense.reversal.paidAt)}, `}
+                annulé par {expense.reversal.byName} le {formatDate(expense.reversal.at)} : {expense.reversal.reason}
+              </Row>
+            )}
             {expense.paidAt && (
               <Row label="Payée par">
                 {expense.paidByName}, le {formatDate(expense.paidAt)}
