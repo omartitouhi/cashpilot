@@ -32,7 +32,11 @@ aucune erreur d'arrondi. La base stocke `DECIMAL(14,3)`, le mapper convertit.
 et des dépenses payées. Une opération ne peut donc pas être comptée deux fois.
 
 **Les données réelles ne sont jamais corrigées en place.** Un paiement n'est ni modifié
-ni supprimé ; une dépense garde qui l'a approuvée, refusée ou payée, et quand.
+ni supprimé : une erreur se corrige par une contre-passation (montant inverse + motif),
+visible dans l'historique et la trésorerie. Une dépense garde qui l'a approuvée, refusée ou payée, et quand.
+
+**Rentabilité par projet** (fonctionnalité du secteur). `profitability()` est une fonction pure du domaine ;
+`ListProjects` additionne les factures validées et les dépenses engagées de chaque projet.
 
 **Simulation sans écriture.** Les hypothèses « What if? » passent dans l'URL ;
 `applyScenario` travaille sur une copie des flux.
