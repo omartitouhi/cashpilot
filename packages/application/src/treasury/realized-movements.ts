@@ -1,4 +1,4 @@
-import { Money, type Expense, type Invoice, type Movement } from "@cashpilot/domain";
+import { Money, startOfDay, type Expense, type Invoice, type Movement } from "@cashpilot/domain";
 
 /**
  * Les opérations réalisées : paiements reçus (+) et dépenses payées (-).
@@ -25,7 +25,8 @@ export function realizedMovements(invoices: Invoice[], expenses: Expense[]): Mov
     if (e.reversedPaidAt && e.reversedAt) {
       movements.push({ id: `${e.id}-paiement-annule`, date: e.reversedPaidAt, label: e.label, amount: out, direction: "OUT" });
       movements.push({
-        id: `${e.id}-correction`, date: e.reversedAt, label: `Correction ${e.label} : ${e.reversalReason}`,
+        // Au jour près, comme les paiements : la correction se place avant un nouveau paiement du même jour.
+        id: `${e.id}-correction`, date: startOfDay(e.reversedAt), label: `Correction ${e.label} : ${e.reversalReason}`,
         amount: e.amount, direction: "OUT",
       });
     }
