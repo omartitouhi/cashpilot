@@ -5,22 +5,46 @@ on:
     branches: [main, develop]
   pull_request:
 
+# Valeurs factices : la CI ne se connecte à aucune base.
+env:
+  DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+  SESSION_SECRET: ci-secret-not-used-in-production
+
+# Chaque job est un bloc sur GitHub ; « needs » trace les flèches :
+#   Architecture ─┐
+#                 ├─► Tests ─► Build
+#   Typecheck ────┘
 jobs:
-  verify:
+  architecture:
+    name: Architecture
     runs-on: ubuntu-latest
-    env:
-      # Valeurs factices : la CI ne se connecte à aucune base.
-      DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
-      SESSION_SECRET: ci-secret-not-used-in-production
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: Règles d'architecture
-        run: pnpm depcruise
-      - name: Typecheck, tests et build
-        run: pnpm turbo run typecheck test build
+      - uses: ./.github/actions/setup
+      - run: pnpm depcruise
+
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: pnpm turbo run typecheck
+
+  test:
+    name: Tests
+    needs: [architecture, typecheck]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: pnpm turbo run test
+
+  build:
+    name: Build
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: pnpm turbo run build
