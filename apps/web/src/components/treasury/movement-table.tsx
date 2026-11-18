@@ -18,7 +18,7 @@ export function MovementTable({ movements }: { movements: TreasuryView["movement
           {movements.map((m) => (
             <tr key={m.id}>
               <td className="px-4 py-3 text-slate-500">{formatDate(m.date)}</td>
-              <td className="px-4 py-3">{m.label}</td>
+              <td className="min-w-48 px-4 py-3 whitespace-normal">{m.label}</td>
               <td className={`px-4 py-3 text-right tabular-nums ${m.amount > 0 ? "text-brand-700" : "text-red-600"}`}>
                 {m.amount > 0 && "+"}
                 {formatMoney(m.amount)}
