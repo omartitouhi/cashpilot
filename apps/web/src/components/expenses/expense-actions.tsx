@@ -1,7 +1,12 @@
 import { can, type ExpenseView, type SessionUser } from "@cashpilot/application";
-import { approveExpenseAction, payExpenseAction } from "@/app/(app)/depenses/actions";
+import {
+  approveExpenseAction,
+  payExpenseAction,
+  rejectExpenseAction,
+  reverseExpensePaymentAction,
+} from "@/app/(app)/depenses/actions";
 import { ActionButton } from "@/components/ui/action-button";
-import { RejectForm } from "./reject-form";
+import { ReasonForm } from "@/components/ui/reason-form";
 
 type Props = { expense: ExpenseView; user: SessionUser };
 
@@ -11,12 +16,22 @@ export function ExpenseActions({ expense, user }: Props) {
     return (
       <div className="flex flex-col gap-4">
         <ActionButton action={approveExpenseAction.bind(null, expense.id)}>Approuver la dépense</ActionButton>
-        <RejectForm expenseId={expense.id} />
+        <ReasonForm action={rejectExpenseAction.bind(null, expense.id)} label="Motif du refus" submitLabel="Refuser la dépense" />
       </div>
     );
   }
   if (expense.status === "APPROVED" && can(user.role, "expenses:pay")) {
     return <ActionButton action={payExpenseAction.bind(null, expense.id)}>Marquer comme payée</ActionButton>;
+  }
+  // Une seule correction possible : on ne la propose plus si elle a déjà eu lieu.
+  if (expense.status === "PAID" && !expense.reversal && can(user.role, "expenses:pay")) {
+    return (
+      <ReasonForm
+        action={reverseExpensePaymentAction.bind(null, expense.id)}
+        label="Paiement enregistré par erreur ? Motif de la correction"
+        submitLabel="Annuler ce paiement"
+      />
+    );
   }
 
   const messages = {
