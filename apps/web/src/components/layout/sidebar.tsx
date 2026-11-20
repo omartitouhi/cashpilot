@@ -14,8 +14,11 @@ export function Sidebar() {
       </div>
 
       <nav className="flex gap-1 overflow-x-auto md:flex-col">
-        {links.map((link) => (
-          <NavLink key={link.href} {...link} />
+        {links.map(({ href, label, icon: Icon }) => (
+          <NavLink key={href} href={href}>
+            <Icon className="size-4" />
+            {label}
+          </NavLink>
         ))}
       </nav>
     </aside>
