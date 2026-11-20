@@ -17,4 +17,5 @@ export { ValidateInvoice, type InvoiceRef } from "./invoice/validate-invoice";
 export { CancelInvoice } from "./invoice/cancel-invoice";
 export { RecordPayment, type RecordPaymentInput } from "./invoice/record-payment";
 export { ListInvoices } from "./invoice/list-invoices";
+export { GetInvoice } from "./invoice/get-invoice";
 export type { InvoiceView } from "./invoice/invoice-view";
