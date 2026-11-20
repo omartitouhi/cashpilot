@@ -12,6 +12,7 @@ export type InvoiceView = {
   issueDate: Date;
   dueDate: Date;
   isOverdue: boolean;
+  payments: { id: string; amount: number; date: Date }[]; // montants en millimes
 };
 
 export function toInvoiceView(invoice: Invoice, today: Date): InvoiceView {
@@ -27,5 +28,6 @@ export function toInvoiceView(invoice: Invoice, today: Date): InvoiceView {
     issueDate: data.issueDate,
     dueDate: data.dueDate,
     isOverdue: invoice.isOverdue(today),
+    payments: data.payments.map((p) => ({ id: p.id, amount: p.amount.millimes, date: p.date })),
   };
 }
