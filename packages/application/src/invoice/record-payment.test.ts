@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { sequentialIds } from "../testing/fakes";
+import { clientsWithOne, sequentialIds } from "../testing/fakes";
 import { InMemoryInvoiceRepository } from "../testing/in-memory-invoice-repository";
 import { CreateInvoice } from "./create-invoice";
 import { RecordPayment } from "./record-payment";
@@ -8,7 +8,8 @@ import { ValidateInvoice } from "./validate-invoice";
 async function setup() {
   const repo = new InMemoryInvoiceRepository();
   const ids = sequentialIds();
-  const { id } = await new CreateInvoice(repo, ids).execute({
+  const clients = await clientsWithOne("co-1", "cl-1");
+  const { id } = await new CreateInvoice(repo, clients, ids).execute({
     companyId: "co-1",
     clientId: "cl-1",
     amount: 3000,
