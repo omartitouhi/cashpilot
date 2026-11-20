@@ -1,7 +1,10 @@
-import { LayoutDashboard, Wallet } from "lucide-react";
+import { FileText, LayoutDashboard, Wallet } from "lucide-react";
 import { NavLink } from "./nav-link";
 
-const links = [{ href: "/", label: "Tableau de bord", icon: LayoutDashboard }];
+const links = [
+  { href: "/", label: "Tableau de bord", icon: LayoutDashboard },
+  { href: "/factures", label: "Factures", icon: FileText },
+];
 
 export function Sidebar() {
   return (
