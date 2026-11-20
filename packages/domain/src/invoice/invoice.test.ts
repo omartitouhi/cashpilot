@@ -60,4 +60,9 @@ describe("Invoice", () => {
     expect(invoice.isOverdue(new Date("2026-02-01"))).toBe(true);
     expect(invoice.isOverdue(new Date("2026-01-15"))).toBe(false);
   });
+
+  it("n'est pas en retard le jour même de l'échéance", () => {
+    const invoice = issuedInvoice(3000);
+    expect(invoice.isOverdue(new Date("2026-01-31T18:00:00Z"))).toBe(false);
+  });
 });
