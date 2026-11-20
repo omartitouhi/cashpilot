@@ -10,11 +10,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@cashpilot/application": "workspace:^",
     "@cashpilot/domain": "workspace:^",
+    "@cashpilot/infra": "workspace:^",
     "lucide-react": "^1.77.0",
     "next": "16.4.6",
     "react": "19.3.1",
-    "react-dom": "19.3.1"
+    "react-dom": "19.3.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@cashpilot/config": "workspace:^",
@@ -22,6 +25,7 @@
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "dotenv": "^18.0.10",
     "tailwindcss": "^4.3.5",
     "typescript": "5.9.3"
   }
