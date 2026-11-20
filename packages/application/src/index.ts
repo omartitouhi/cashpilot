@@ -6,6 +6,7 @@ export type { InvoiceRepository } from "./ports/invoice-repository";
 
 // Erreurs
 export { NotFoundError } from "./shared/not-found-error";
+export { isBusinessError } from "./shared/business-error";
 
 // Clients
 export { ListClients, type ClientView } from "./client/list-clients";
