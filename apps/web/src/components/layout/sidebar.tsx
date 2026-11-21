@@ -1,5 +1,5 @@
 import { can, type Permission, type SessionUser } from "@cashpilot/application";
-import { FileText, LayoutDashboard, Users, type LucideIcon } from "lucide-react";
+import { FileText, LayoutDashboard, Receipt, Users, type LucideIcon } from "lucide-react";
 import { Logo } from "./logo";
 import { NavLink } from "./nav-link";
 import { UserMenu } from "./user-menu";
@@ -9,6 +9,7 @@ type Link = { href: string; label: string; icon: LucideIcon; permission?: Permis
 const links: Link[] = [
   { href: "/", label: "Tableau de bord", icon: LayoutDashboard },
   { href: "/factures", label: "Factures", icon: FileText, permission: "invoices:view" },
+  { href: "/depenses", label: "Dépenses", icon: Receipt, permission: "expenses:submit" },
   { href: "/equipe", label: "Équipe", icon: Users, permission: "members:manage" },
 ];
 
