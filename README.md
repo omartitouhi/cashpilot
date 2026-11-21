@@ -86,8 +86,8 @@ Après une migration, relancer `pnpm dev` : le serveur garde l'ancien client Pri
 - Clients et fournisseurs partagent la même table (champ `kind`). Une dépense peut viser un fournisseur ;
   on ne peut pas facturer un fournisseur.
 - Les justificatifs (PDF ou image, 2 Mo max) sont stockés en base.
-- Un paiement erroné se corrige par contre-passation (opération inverse avec motif) : rien n'est effacé.
-  Le paiement d'une dépense, lui, n'a pas encore de correction.
+- Un paiement erroné se corrige par une opération inverse avec motif : rien n'est effacé.
+  Facture : plusieurs corrections possibles. Dépense : une seule correction, la dépense redevient « approuvée ».
 - Le solde réel est calculé à partir des paiements reçus et des dépenses payées (aucune copie des montants).
 - Prévision : reste à payer des factures validées à leur échéance, dépenses approuvées non payées
   à leur date ; un flux en retard est attendu dès aujourd'hui. Les dépenses encore à valider ne sont pas comptées.
