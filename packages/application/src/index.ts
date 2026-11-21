@@ -48,6 +48,7 @@ export { GetForecast, type ForecastView, type ScenarioInput } from "./forecast/g
 export { ListClients, type ClientView } from "./client/list-clients";
 export { CreateClient, type CreateClientInput } from "./client/create-client";
 export { GetClient, type ClientDetailView } from "./client/get-client";
+export type { PartnerKind } from "@cashpilot/domain";
 
 // Factures
 export { CreateInvoice, type CreateInvoiceInput } from "./invoice/create-invoice";
