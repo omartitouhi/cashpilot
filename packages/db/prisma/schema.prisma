@@ -41,9 +41,15 @@ model User {
   @@index([companyId])
 }
 
+enum PartnerKind {
+  CLIENT
+  SUPPLIER
+}
+
 model Client {
-  id        String    @id
+  id        String      @id
   companyId String
+  kind      PartnerKind @default(CLIENT)
   name      String
   email     String?
   phone     String?
@@ -104,6 +110,7 @@ model Expense {
   amount          Decimal         @db.Decimal(14, 3)
   date            DateTime        @db.Date
   receiptId       String?
+  supplierId      String?
   status          ExpenseStatus
   decidedBy       String?
   decidedAt       DateTime?
