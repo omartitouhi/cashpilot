@@ -44,6 +44,12 @@ export { GetDashboard, type DashboardView } from "./treasury/get-dashboard";
 // Prévisions et simulation
 export { GetForecast, type ForecastView, type ScenarioInput } from "./forecast/get-forecast";
 
+// Projets (fonctionnalité du secteur : rentabilité par projet)
+export type { ProjectRepository } from "./ports/project-repository";
+export { CreateProject, type CreateProjectInput } from "./project/create-project";
+export { ListProjects, type ProjectView } from "./project/list-projects";
+export { ListProjectNames } from "./project/list-project-names";
+
 // Clients
 export { ListClients, type ClientView } from "./client/list-clients";
 export { CreateClient, type CreateClientInput } from "./client/create-client";

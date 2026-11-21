@@ -1,3 +1,4 @@
+import { InMemoryProjectRepository } from "../testing/in-memory-project-repository";
 import { describe, expect, it } from "vitest";
 import { finance, member, otherCompany } from "../testing/actors";
 import { clientsWithOne, sequentialIds } from "../testing/fakes";
@@ -14,7 +15,7 @@ const input = {
 async function setup() {
   const repo = new InMemoryInvoiceRepository();
   const clients = await clientsWithOne("co-1", "cl-1");
-  return { repo, createInvoice: new CreateInvoice(repo, clients, sequentialIds()) };
+  return { repo, createInvoice: new CreateInvoice(repo, clients, sequentialIds(), new InMemoryProjectRepository()) };
 }
 
 describe("CreateInvoice", () => {

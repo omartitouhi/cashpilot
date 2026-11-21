@@ -1,3 +1,4 @@
+import { InMemoryProjectRepository } from "../testing/in-memory-project-repository";
 import { describe, expect, it } from "vitest";
 import { ApproveExpense } from "../expense/approve-expense";
 import { PayExpense } from "../expense/pay-expense";
@@ -28,13 +29,13 @@ async function setup() {
   const { id: supplierId } = await create.execute(finance, { kind: "SUPPLIER", name: "Figma", ...contact });
 
   const dates = { issueDate: new Date("2026-01-01"), dueDate: new Date("2026-01-31") };
-  const createInvoice = new CreateInvoice(invoices, clients, ids);
+  const createInvoice = new CreateInvoice(invoices, clients, ids, new InMemoryProjectRepository());
   const { id: issued } = await createInvoice.execute(finance, { clientId, amount: 3000, ...dates });
   await createInvoice.execute(finance, { clientId, amount: 999, ...dates }); // brouillon : non compté
   await new ValidateInvoice(invoices).execute(finance, issued);
   await new RecordPayment(invoices, ids).execute(finance, { invoiceId: issued, amount: 1000, date: new Date() });
 
-  const submit = new SubmitExpense(expenses, new InMemoryReceiptStorage(), ids, clients);
+  const submit = new SubmitExpense(expenses, new InMemoryReceiptStorage(), ids, clients, new InMemoryProjectRepository());
   const expense = { label: "Licence", category: "SOFTWARE" as const, amount: 450, date: new Date(), receipt: null };
   const { id: expenseId } = await submit.execute(member, { ...expense, supplierId });
   await new ApproveExpense(expenses, clock).execute(owner, expenseId);
@@ -63,7 +64,7 @@ describe("Clients et fournisseurs", () => {
   it("on ne facture pas un fournisseur", async () => {
     const { supplierId, clients, invoices } = await setup();
     const dates = { issueDate: new Date("2026-01-01"), dueDate: new Date("2026-01-31") };
-    const attempt = new CreateInvoice(invoices, clients, sequentialIds()).execute(finance, {
+    const attempt = new CreateInvoice(invoices, clients, sequentialIds(), new InMemoryProjectRepository()).execute(finance, {
       clientId: supplierId, amount: 10, ...dates,
     });
     await expect(attempt).rejects.toThrow("Client introuvable.");

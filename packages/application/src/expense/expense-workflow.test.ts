@@ -1,3 +1,4 @@
+import { InMemoryProjectRepository } from "../testing/in-memory-project-repository";
 import { describe, expect, it } from "vitest";
 import { finance, member, owner } from "../testing/actors";
 import { fixedClock, sequentialIds } from "../testing/fakes";
@@ -20,7 +21,7 @@ function setup() {
   const receipts = new InMemoryReceiptStorage();
   const clock = fixedClock("2026-03-01");
   return {
-    submit: new SubmitExpense(expenses, receipts, sequentialIds(), new InMemoryClientRepository()),
+    submit: new SubmitExpense(expenses, receipts, sequentialIds(), new InMemoryClientRepository(), new InMemoryProjectRepository()),
     list: new ListExpenses(expenses, new InMemoryUserRepository()),
     approve: new ApproveExpense(expenses, clock),
     reject: new RejectExpense(expenses, clock),

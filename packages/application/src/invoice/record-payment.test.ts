@@ -1,3 +1,4 @@
+import { InMemoryProjectRepository } from "../testing/in-memory-project-repository";
 import { describe, expect, it } from "vitest";
 import { finance, otherCompany } from "../testing/actors";
 import { clientsWithOne, fixedClock, sequentialIds } from "../testing/fakes";
@@ -11,7 +12,7 @@ async function setup() {
   const repo = new InMemoryInvoiceRepository();
   const ids = sequentialIds();
   const clients = await clientsWithOne("co-1", "cl-1");
-  const { id } = await new CreateInvoice(repo, clients, ids).execute(finance, {
+  const { id } = await new CreateInvoice(repo, clients, ids, new InMemoryProjectRepository()).execute(finance, {
     clientId: "cl-1",
     amount: 3000,
     issueDate: new Date("2026-01-01"),
