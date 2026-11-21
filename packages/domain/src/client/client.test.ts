@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Client } from "./client";
 
-const base = { id: "cl-1", companyId: "co-1", email: null };
+const base = { id: "cl-1", companyId: "co-1", email: null, phone: null };
 
 describe("Client", () => {
   it("nettoie les espaces autour du nom", () => {
