@@ -2,7 +2,7 @@
 export type ReceiptFile = {
   fileName: string;
   contentType: string;
-  bytes: Uint8Array;
+  bytes: Uint8Array<ArrayBuffer>;
 };
 
 /** Où sont rangés les justificatifs. Renvoie un identifiant à l'enregistrement. */
