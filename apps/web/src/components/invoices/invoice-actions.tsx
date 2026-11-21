@@ -6,7 +6,8 @@ import { PaymentForm } from "./payment-form";
 
 /** Affiche les actions possibles selon le statut de la facture. */
 export function InvoiceActions({ invoice }: { invoice: InvoiceView }) {
-  const canCancel = invoice.status === "DRAFT" || (invoice.status === "ISSUED" && invoice.paid === 0);
+  // Même règle que le domaine : une facture qui a un historique de paiements ne s'annule pas.
+  const canCancel = invoice.status !== "PAID" && invoice.status !== "CANCELLED" && invoice.payments.length === 0;
 
   return (
     <div className="flex flex-col gap-4">
