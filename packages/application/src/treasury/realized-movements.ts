@@ -17,10 +17,23 @@ export function realizedMovements(invoices: Invoice[], expenses: Expense[]): Mov
     }));
   });
 
-  const paid = expenses
-    .map((expense) => expense.snapshot())
-    .filter((e) => e.status === "PAID")
-    .map((e) => ({ id: e.id, date: e.paidAt ?? e.date, label: e.label, amount: Money.zero().subtract(e.amount), direction: "OUT" as const }));
+  const paid = expenses.flatMap((expense): Movement[] => {
+    const e = expense.snapshot();
+    const out = Money.zero().subtract(e.amount);
+    const movements: Movement[] = [];
+    // Un paiement corrigé apparaît deux fois : le paiement d'origine, puis son annulation.
+    if (e.reversedPaidAt && e.reversedAt) {
+      movements.push({ id: `${e.id}-paiement-annule`, date: e.reversedPaidAt, label: e.label, amount: out, direction: "OUT" });
+      movements.push({
+        id: `${e.id}-correction`, date: e.reversedAt, label: `Correction ${e.label} : ${e.reversalReason}`,
+        amount: e.amount, direction: "OUT",
+      });
+    }
+    if (e.status === "PAID") {
+      movements.push({ id: e.id, date: e.paidAt ?? e.date, label: e.label, amount: out, direction: "OUT" });
+    }
+    return movements;
+  });
 
   return [...received, ...paid];
 }
