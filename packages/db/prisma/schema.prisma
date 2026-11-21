@@ -15,8 +15,28 @@ model Company {
   name           String
   initialBalance Decimal   @db.Decimal(14, 3)
   createdAt      DateTime  @default(now())
+  users          User[]
   clients        Client[]
   invoices       Invoice[]
+}
+
+enum Role {
+  OWNER
+  FINANCE
+  MEMBER
+}
+
+model User {
+  id           String   @id
+  companyId    String
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime @default(now())
+  company      Company  @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
 }
 
 model Client {
