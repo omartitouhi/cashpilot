@@ -1,4 +1,4 @@
-import { computeBalance, Expense, Money } from "@cashpilot/domain";
+import { computeBalance, Expense, Money, withRunningBalance } from "@cashpilot/domain";
 import { describe, expect, it } from "vitest";
 import { realizedMovements } from "./realized-movements";
 
@@ -22,12 +22,12 @@ describe("Opérations réalisées", () => {
     expect(computeBalance(Money.fromDinars(1000), movements).toDinars()).toBe(1000);
   });
 
-  it("payée à nouveau après correction, la dépense compte une seule fois", () => {
+  it("payée à nouveau le même jour, l'historique reste dans l'ordre logique", () => {
     const expense = paidExpense();
-    expense.reversePayment("u-finance", "Mauvais montant saisi", new Date("2026-03-04"));
-    expense.markPaid("u-finance", new Date("2026-03-05"));
+    expense.reversePayment("u-finance", "Mauvais montant saisi", new Date("2026-03-04T09:30:00Z"));
+    expense.markPaid("u-finance", new Date("2026-03-04"));
 
-    const movements = realizedMovements([], [expense]);
-    expect(computeBalance(Money.fromDinars(1000), movements).toDinars()).toBe(549.5);
+    const history = withRunningBalance(Money.fromDinars(1000), realizedMovements([], [expense]));
+    expect(history.map((m) => m.balanceAfter.toDinars())).toEqual([549.5, 1000, 549.5]);
   });
 });

@@ -1,5 +1,6 @@
 export { DomainError } from "./shared/domain-error";
 export { Money } from "./shared/money";
+export { startOfDay } from "./shared/dates";
 export { Client, type ClientProps, type PartnerKind } from "./client/client";
 export { Project, profitability, type Profitability, type ProjectProps } from "./project/project";
 export { can, ROLE_LABELS, type Permission, type Role } from "./user/permissions";
