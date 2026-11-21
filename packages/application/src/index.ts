@@ -55,6 +55,7 @@ export { CreateInvoice, type CreateInvoiceInput } from "./invoice/create-invoice
 export { ValidateInvoice } from "./invoice/validate-invoice";
 export { CancelInvoice } from "./invoice/cancel-invoice";
 export { RecordPayment, type RecordPaymentInput } from "./invoice/record-payment";
+export { ReversePayment, type ReversePaymentInput } from "./invoice/reverse-payment";
 export { ListInvoices } from "./invoice/list-invoices";
 export { GetInvoice } from "./invoice/get-invoice";
 export { ExportInvoicePdf } from "./invoice/export-invoice-pdf";

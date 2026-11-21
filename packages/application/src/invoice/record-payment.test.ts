@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { finance, otherCompany } from "../testing/actors";
-import { clientsWithOne, sequentialIds } from "../testing/fakes";
+import { clientsWithOne, fixedClock, sequentialIds } from "../testing/fakes";
+import { ReversePayment } from "./reverse-payment";
 import { InMemoryInvoiceRepository } from "../testing/in-memory-invoice-repository";
 import { CreateInvoice } from "./create-invoice";
 import { RecordPayment } from "./record-payment";
@@ -27,6 +28,20 @@ describe("RecordPayment", () => {
 
     const invoice = await repo.byId("co-1", id);
     expect(invoice?.remainingAmount().toDinars()).toBe(2000);
+  });
+
+  it("annule un paiement erroné par une correction traçable", async () => {
+    const { repo, id, recordPayment } = await setup();
+    await recordPayment.execute(finance, { invoiceId: id, amount: 1000, date: new Date() });
+    const paymentId = (await repo.byId("co-1", id))!.snapshot().payments[0]!.id;
+
+    await new ReversePayment(repo, sequentialIds(), fixedClock("2026-02-01")).execute(finance, {
+      invoiceId: id, paymentId, reason: "Mauvaise facture",
+    });
+
+    const invoice = await repo.byId("co-1", id);
+    expect(invoice?.remainingAmount().toDinars()).toBe(3000);
+    expect(invoice?.snapshot().payments.map((p) => p.amount.toDinars())).toEqual([1000, -1000]);
   });
 
   it("refuse une facture d'une autre entreprise", async () => {

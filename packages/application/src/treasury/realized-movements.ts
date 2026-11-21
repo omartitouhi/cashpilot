@@ -8,7 +8,12 @@ import { Money, type Expense, type Invoice, type Movement } from "@cashpilot/dom
 export function realizedMovements(invoices: Invoice[], expenses: Expense[]): Movement[] {
   const received = invoices.flatMap((invoice) => {
     const { number, payments } = invoice.snapshot();
-    return payments.map((p) => ({ id: p.id, date: p.date, label: `Encaissement ${number}`, amount: p.amount }));
+    return payments.map((p) => ({
+      id: p.id,
+      date: p.date,
+      label: p.reversalOf ? `Correction ${number} : ${p.reason}` : `Encaissement ${number}`,
+      amount: p.amount,
+    }));
   });
 
   const paid = expenses
