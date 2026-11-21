@@ -4,15 +4,15 @@ import { ButtonLink } from "@/components/ui/button-link";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { useCases } from "@/container";
-import { getCurrentCompanyId } from "@/lib/current-company";
+import { getCurrentUser } from "@/lib/current-user";
 
 export const dynamic = "force-dynamic";
 
 export default async function InvoicesPage() {
-  const companyId = await getCurrentCompanyId();
+  const user = await getCurrentUser();
   const [invoices, clients] = await Promise.all([
-    useCases.listInvoices.execute(companyId),
-    useCases.listClients.execute(companyId),
+    useCases.listInvoices.execute(user),
+    useCases.listClients.execute(user),
   ]);
   const clientNames = new Map(clients.map((c) => [c.id, c.name]));
 
