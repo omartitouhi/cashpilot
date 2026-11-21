@@ -18,6 +18,8 @@ model Company {
   users          User[]
   clients        Client[]
   invoices       Invoice[]
+  expenses       Expense[]
+  receipts       Receipt[]
 }
 
 enum Role {
@@ -73,6 +75,57 @@ model Invoice {
   payments  Payment[]
 
   @@unique([companyId, number])
+}
+
+enum ExpenseCategory {
+  SOFTWARE
+  FREELANCE
+  ADVERTISING
+  EQUIPMENT
+  RENT
+  SALARY
+  OTHER
+}
+
+enum ExpenseStatus {
+  SUBMITTED
+  APPROVED
+  REJECTED
+  PAID
+}
+
+model Expense {
+  id              String          @id
+  companyId       String
+  submittedBy     String
+  label           String
+  category        ExpenseCategory
+  amount          Decimal         @db.Decimal(14, 3)
+  date            DateTime        @db.Date
+  receiptId       String?
+  status          ExpenseStatus
+  decidedBy       String?
+  decidedAt       DateTime?
+  rejectionReason String?
+  paidBy          String?
+  paidAt          DateTime?       @db.Date
+  createdAt       DateTime        @default(now())
+  company         Company         @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
+}
+
+// Justificatif stocké en base : compatible avec un hébergement sans disque (Vercel).
+model Receipt {
+  id          String   @id
+  companyId   String
+  fileName    String
+  contentType String
+  data        Bytes
+  createdAt   DateTime @default(now())
+  company     Company  @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
 }
 
 // Un paiement n'est jamais modifié ni supprimé : l'historique est conservé.
