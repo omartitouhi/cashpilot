@@ -47,6 +47,13 @@ describe("Expense", () => {
     expect(() => submitted().reject("u-owner", "", now)).toThrow("Indiquez le motif du refus.");
   });
 
+  it("n'accepte plus de justificatif une fois traitée", () => {
+    const expense = submitted();
+    expense.attachReceipt("r-1");
+    expense.approve("u-owner", now);
+    expect(() => expense.attachReceipt("r-2")).toThrow("Cette dépense a déjà été traitée.");
+  });
+
   it("ne peut pas être approuvée deux fois", () => {
     const expense = submitted();
     expense.approve("u-owner", now);
