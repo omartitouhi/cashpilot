@@ -5,6 +5,9 @@ export { can, ROLE_LABELS, type Permission, type Role } from "./user/permissions
 export { User, type UserProps } from "./user/user";
 export { assertValidPassword } from "./user/password-policy";
 export { Company, type CompanyProps } from "./company/company";
+export { Expense, type ExpenseProps, type NewExpense } from "./expense/expense";
+export { EXPENSE_CATEGORIES, type ExpenseCategory } from "./expense/expense-category";
+export type { ExpenseStatus } from "./expense/expense-status";
 export { Invoice, type InvoiceProps, type NewInvoice } from "./invoice/invoice";
 export type { InvoiceStatus } from "./invoice/invoice-status";
 export type { Payment } from "./invoice/payment";

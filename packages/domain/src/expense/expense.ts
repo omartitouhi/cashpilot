@@ -1,0 +1,105 @@
+import { DomainError } from "../shared/domain-error";
+import type { Money } from "../shared/money";
+import type { ExpenseCategory } from "./expense-category";
+import type { ExpenseStatus } from "./expense-status";
+
+export type ExpenseProps = {
+  id: string;
+  companyId: string;
+  submittedBy: string; // id de l'utilisateur
+  label: string;
+  category: ExpenseCategory;
+  amount: Money;
+  date: Date; // date à laquelle la dépense doit être payée
+  receiptId: string | null; // justificatif (facultatif)
+  status: ExpenseStatus;
+  // Traçabilité : qui a décidé ou payé, et quand.
+  decidedBy: string | null;
+  decidedAt: Date | null;
+  rejectionReason: string | null;
+  paidBy: string | null;
+  paidAt: Date | null;
+};
+
+export type NewExpense = Pick<
+  ExpenseProps,
+  "id" | "companyId" | "submittedBy" | "label" | "category" | "amount" | "date" | "receiptId"
+>;
+
+export class Expense {
+  private constructor(private props: ExpenseProps) {}
+
+  static submit(data: NewExpense): Expense {
+    if (data.label.trim().length < 2) {
+      throw new DomainError("LIBELLE_TROP_COURT", "Le libellé est trop court.");
+    }
+    if (!data.amount.isPositive()) {
+      throw new DomainError("MONTANT_NON_POSITIF", "Le montant doit être positif.");
+    }
+    return new Expense({
+      ...data,
+      label: data.label.trim(),
+      status: "SUBMITTED",
+      decidedBy: null,
+      decidedAt: null,
+      rejectionReason: null,
+      paidBy: null,
+      paidAt: null,
+    });
+  }
+
+  static restore(props: ExpenseProps): Expense {
+    return new Expense(props);
+  }
+
+  get id(): string {
+    return this.props.id;
+  }
+
+  get status(): ExpenseStatus {
+    return this.props.status;
+  }
+
+  approve(userId: string, now: Date): void {
+    this.assertSubmitted();
+    this.props = { ...this.props, status: "APPROVED", decidedBy: userId, decidedAt: now };
+  }
+
+  reject(userId: string, reason: string, now: Date): void {
+    this.assertSubmitted();
+    if (reason.trim().length < 3) {
+      throw new DomainError("MOTIF_OBLIGATOIRE", "Indiquez le motif du refus.");
+    }
+    this.props = {
+      ...this.props,
+      status: "REJECTED",
+      decidedBy: userId,
+      decidedAt: now,
+      rejectionReason: reason.trim(),
+    };
+  }
+
+  /** Seule une dépense approuvée peut être payée, et une seule fois. */
+  markPaid(userId: string, paidAt: Date): void {
+    if (this.props.status === "REJECTED") {
+      throw new DomainError("DEPENSE_REFUSEE", "Une dépense refusée ne peut pas être payée.");
+    }
+    if (this.props.status === "PAID") {
+      throw new DomainError("DEPENSE_DEJA_PAYEE", "Cette dépense est déjà payée.");
+    }
+    if (this.props.status !== "APPROVED") {
+      throw new DomainError("DEPENSE_NON_APPROUVEE", "La dépense doit d'abord être approuvée.");
+    }
+    this.props = { ...this.props, status: "PAID", paidBy: userId, paidAt };
+  }
+
+  snapshot(): ExpenseProps {
+    return { ...this.props };
+  }
+
+  private assertSubmitted(): void {
+    if (this.props.status !== "SUBMITTED") {
+      throw new DomainError("DEPENSE_DEJA_TRAITEE", "Cette dépense a déjà été traitée.");
+    }
+  }
+}
