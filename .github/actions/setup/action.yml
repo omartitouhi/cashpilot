@@ -1,0 +1,13 @@
+name: Installation
+description: pnpm, Node.js 22 et dépendances (partagé par tous les jobs de la CI)
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v6
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 22
+        cache: pnpm
+    - run: pnpm install --frozen-lockfile
+      shell: bash
