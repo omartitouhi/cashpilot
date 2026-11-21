@@ -1,12 +1,10 @@
 import { describe, expect, it } from "vitest";
-import type { Actor } from "../shared/actor";
+import { finance, owner } from "../testing/actors";
 import { fakeHasher, sequentialIds } from "../testing/fakes";
 import { InMemoryUserRepository } from "../testing/in-memory-user-repository";
 import { AddMember } from "./add-member";
 import { ListMembers } from "./list-members";
 
-const owner: Actor = { userId: "u-1", companyId: "co-1", role: "OWNER" };
-const finance: Actor = { userId: "u-2", companyId: "co-1", role: "FINANCE" };
 const newMember = { name: "Lina", email: "lina@pixel.tn", password: "motdepasse", role: "MEMBER" as const };
 
 describe("AddMember", () => {
