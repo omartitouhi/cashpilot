@@ -31,8 +31,17 @@ export default async function DashboardPage() {
     );
   }
 
-  const dashboard = await useCases.getDashboard.execute(user);
+  const [dashboard, forecast] = await Promise.all([
+    useCases.getDashboard.execute(user),
+    useCases.getForecast.execute(user),
+  ]);
   const alerts: Alert[] = [
+    ...forecast.base.shortages.map((s) => ({
+      href: "/previsions",
+      title: "Solde prévisionnel négatif",
+      detail: `du ${formatDate(s.from)} au ${formatDate(s.to)}`,
+      tone: "danger" as const,
+    })),
     ...dashboard.overdueInvoices.map((i) => ({
       href: `/factures/${i.id}`,
       title: `Facture ${i.number} en retard`,
