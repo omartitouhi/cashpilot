@@ -11,7 +11,7 @@ export function ExpenseTable({ expenses }: { expenses: ExpenseView[] }) {
         <thead className="border-b border-slate-200 text-left text-slate-500">
           <tr>
             <th className="px-4 py-3 font-medium">Libellé</th>
-            <th className="px-4 py-3 font-medium">Catégorie</th>
+            <th className="hidden px-4 py-3 font-medium xl:table-cell">Catégorie</th>
             <th className="px-4 py-3 font-medium">Soumise par</th>
             <th className="px-4 py-3 font-medium">Date</th>
             <th className="px-4 py-3 text-right font-medium">Montant</th>
@@ -26,7 +26,7 @@ export function ExpenseTable({ expenses }: { expenses: ExpenseView[] }) {
                   {expense.label}
                 </Link>
               </td>
-              <td className="px-4 py-3 text-slate-500">{EXPENSE_CATEGORIES[expense.category]}</td>
+              <td className="hidden px-4 py-3 text-slate-500 xl:table-cell">{EXPENSE_CATEGORIES[expense.category]}</td>
               <td className="px-4 py-3">{expense.submitterName}</td>
               <td className="px-4 py-3 text-slate-500">{formatDate(expense.date)}</td>
               <td className="px-4 py-3 text-right tabular-nums">{formatMoney(expense.amount)}</td>
