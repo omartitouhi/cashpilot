@@ -26,7 +26,7 @@ export class CreateInvoice {
 
     // Le client doit appartenir à la même entreprise.
     const client = await this.clients.byId(companyId, input.clientId);
-    if (!client) throw new NotFoundError("Client");
+    if (client?.kind !== "CLIENT") throw new NotFoundError("Client"); // pas de facture à un fournisseur
 
     const count = await this.invoices.countForCompany(companyId);
     const invoice = Invoice.createDraft({
