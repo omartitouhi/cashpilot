@@ -12,7 +12,7 @@ type Props = {
 export function InvoiceTable({ invoices, clientNames }: Props) {
   return (
     <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-      <table className="w-full text-sm">
+      <table className="w-full text-sm whitespace-nowrap">
         <thead className="border-b border-slate-200 text-left text-slate-500">
           <tr>
             <th className="px-4 py-3 font-medium">Numéro</th>
