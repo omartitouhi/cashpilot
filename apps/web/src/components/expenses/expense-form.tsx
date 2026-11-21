@@ -7,7 +7,9 @@ import { Field, inputClass } from "@/components/ui/field";
 import { FormMessage } from "@/components/ui/form-message";
 import { SubmitButton } from "@/components/ui/submit-button";
 
-export function ExpenseForm({ defaultDate }: { defaultDate: string }) {
+type Props = { defaultDate: string; suppliers: { id: string; name: string }[] };
+
+export function ExpenseForm({ defaultDate, suppliers }: Props) {
   const [state, formAction] = useActionState(submitExpenseAction, {});
   const values = state.values ?? {};
   const errors = state.fieldErrors ?? {};
@@ -28,6 +30,16 @@ export function ExpenseForm({ defaultDate }: { defaultDate: string }) {
           <option value="" disabled>Choisir une catégorie</option>
           {Object.entries(EXPENSE_CATEGORIES).map(([value, label]) => (
             <option key={value} value={value}>{label}</option>
+          ))}
+        </select>
+      </Field>
+
+      <Field label="Fournisseur (facultatif)" name="supplierId">
+        <select key={values.supplierId} id="supplierId" name="supplierId"
+          defaultValue={values.supplierId ?? ""} className={inputClass}>
+          <option value="">Aucun</option>
+          {suppliers.map((s) => (
+            <option key={s.id} value={s.id}>{s.name}</option>
           ))}
         </select>
       </Field>
