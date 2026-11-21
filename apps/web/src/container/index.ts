@@ -1,5 +1,12 @@
 import {
   AddMember,
+  ApproveExpense,
+  GetExpense,
+  GetReceipt,
+  ListExpenses,
+  PayExpense,
+  RejectExpense,
+  SubmitExpense,
   CancelInvoice,
   CreateInvoice,
   GetInvoice,
@@ -15,7 +22,9 @@ import {
   BcryptPasswordHasher,
   PrismaClientRepository,
   PrismaCompanyRepository,
+  PrismaExpenseRepository,
   PrismaInvoiceRepository,
+  PrismaReceiptStorage,
   PrismaUserRepository,
   SystemClock,
   UuidGenerator,
@@ -26,6 +35,8 @@ const invoices = new PrismaInvoiceRepository();
 const clients = new PrismaClientRepository();
 const companies = new PrismaCompanyRepository();
 const users = new PrismaUserRepository();
+const expenses = new PrismaExpenseRepository();
+const receipts = new PrismaReceiptStorage();
 const hasher = new BcryptPasswordHasher();
 const clock = new SystemClock();
 const ids = new UuidGenerator();
@@ -35,6 +46,13 @@ export const useCases = {
   login: new Login(users, hasher),
   addMember: new AddMember(users, hasher, ids),
   listMembers: new ListMembers(users),
+  submitExpense: new SubmitExpense(expenses, receipts, ids),
+  listExpenses: new ListExpenses(expenses, users),
+  getExpense: new GetExpense(expenses, users),
+  approveExpense: new ApproveExpense(expenses, clock),
+  rejectExpense: new RejectExpense(expenses, clock),
+  payExpense: new PayExpense(expenses),
+  getReceipt: new GetReceipt(expenses, receipts),
   listClients: new ListClients(clients),
   listInvoices: new ListInvoices(invoices, clock),
   getInvoice: new GetInvoice(invoices, clock),
