@@ -3,6 +3,8 @@ import { Banknote, CircleCheck, Clock, FileText } from "lucide-react";
 import { notFound } from "next/navigation";
 import { ExpenseTable } from "@/components/expenses/expense-table";
 import { InvoiceTable } from "@/components/invoices/invoice-table";
+import { PaymentList } from "@/components/invoices/payment-list";
+import { Card } from "@/components/ui/card";
 import { AccessDenied } from "@/components/ui/access-denied";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
@@ -51,6 +53,14 @@ export default async function PartnerPage({ params }: { params: Promise<{ id: st
           <EmptyState icon={FileText} title="Aucun historique" description="Rien n'a encore été enregistré pour ce tiers." />
         )}
       </section>
+
+      {isClient && (
+        <section className="mt-8">
+          <Card title="Historique des paiements reçus">
+            <PaymentList payments={partner.invoices.flatMap((i) => i.payments).sort((a, b) => b.date.getTime() - a.date.getTime())} />
+          </Card>
+        </section>
+      )}
     </>
   );
 }
