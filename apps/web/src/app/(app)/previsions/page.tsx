@@ -45,7 +45,7 @@ export default async function ForecastPage({ searchParams }: Props) {
         </Card>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+      <div className="mt-6 grid gap-6 xl:grid-cols-2">
         <Card title="Simulation « What if? »">
           {!isValid && <FormMessage message="Certaines hypothèses sont invalides et ont été ignorées." />}
           <ScenarioForm invoices={forecast.invoices} params={params} />
