@@ -13,7 +13,7 @@ export function AlertList({ alerts }: { alerts: Alert[] }) {
   return (
     <ul className="divide-y divide-slate-100">
       {alerts.map((alert) => (
-        <li key={alert.href}>
+        <li key={`${alert.href}${alert.detail}`}>
           <Link href={alert.href} className="flex items-center gap-3 py-3 text-sm hover:text-brand-700">
             <span className={`size-2 shrink-0 rounded-full ${dots[alert.tone]}`} />
             <span className="font-medium">{alert.title}</span>
