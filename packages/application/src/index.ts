@@ -57,4 +57,6 @@ export { CancelInvoice } from "./invoice/cancel-invoice";
 export { RecordPayment, type RecordPaymentInput } from "./invoice/record-payment";
 export { ListInvoices } from "./invoice/list-invoices";
 export { GetInvoice } from "./invoice/get-invoice";
+export { ExportInvoicePdf } from "./invoice/export-invoice-pdf";
+export type { InvoiceDocument, InvoicePdfRenderer } from "./ports/invoice-pdf-renderer";
 export type { InvoiceView } from "./invoice/invoice-view";
