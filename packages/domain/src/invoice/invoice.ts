@@ -8,6 +8,7 @@ export type InvoiceProps = {
   id: string;
   companyId: string;
   clientId: string;
+  projectId: string | null; // projet de l'agence (facultatif)
   number: string;
   amount: Money;
   issueDate: Date;

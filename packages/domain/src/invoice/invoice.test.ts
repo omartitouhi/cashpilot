@@ -7,6 +7,7 @@ function draftInvoice(dinars = 3000): Invoice {
     id: "inv-1",
     companyId: "co-1",
     clientId: "cl-1",
+    projectId: null,
     number: "F-001",
     amount: Money.fromDinars(dinars),
     issueDate: new Date("2026-01-01"),
