@@ -11,6 +11,7 @@ import { GetReceipt } from "./get-receipt";
 import { ListExpenses } from "./list-expenses";
 import { PayExpense } from "./pay-expense";
 import { RejectExpense } from "./reject-expense";
+import { ReverseExpensePayment } from "./reverse-expense-payment";
 import { SubmitExpense } from "./submit-expense";
 
 const pdf = { fileName: "facture.pdf", contentType: "application/pdf", bytes: new Uint8Array([1, 2, 3]) };
@@ -27,6 +28,7 @@ function setup() {
     reject: new RejectExpense(expenses, clock),
     pay: new PayExpense(expenses),
     getReceipt: new GetReceipt(expenses, receipts),
+    reversePayment: new ReverseExpensePayment(expenses, clock),
   };
 }
 
@@ -39,6 +41,20 @@ describe("Workflow des dépenses", () => {
 
     const [expense] = await uc.list.execute(owner);
     expect(expense?.status).toBe("PAID");
+  });
+
+  it("le gestionnaire financier corrige un paiement erroné, le collaborateur non", async () => {
+    const uc = setup();
+    const { id } = await uc.submit.execute(member, { ...input, receipt: null });
+    await uc.approve.execute(owner, id);
+    await uc.pay.execute(finance, { expenseId: id, paidAt: new Date("2026-03-05") });
+
+    await expect(uc.reversePayment.execute(member, id, "Erreur")).rejects.toThrow("droits");
+    await uc.reversePayment.execute(finance, id, "Payé deux fois");
+
+    const [expense] = await uc.list.execute(owner);
+    expect(expense?.status).toBe("APPROVED");
+    expect(expense?.reversal?.reason).toBe("Payé deux fois");
   });
 
   it("le gestionnaire financier ne peut pas approuver", async () => {

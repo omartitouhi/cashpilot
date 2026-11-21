@@ -16,6 +16,7 @@ export type ExpenseView = {
   rejectionReason: string | null;
   paidByName: string | null;
   paidAt: Date | null;
+  reversal: { paidAt: Date | null; byName: string | null; at: Date; reason: string | null } | null;
 };
 
 export function toExpenseView(expense: Expense, names: Map<string, string>): ExpenseView {
@@ -37,5 +38,8 @@ export function toExpenseView(expense: Expense, names: Map<string, string>): Exp
     rejectionReason: data.rejectionReason,
     paidByName: nameOf(data.paidBy),
     paidAt: data.paidAt,
+    reversal: data.reversedAt
+      ? { paidAt: data.reversedPaidAt, byName: nameOf(data.reversedBy), at: data.reversedAt, reason: data.reversalReason }
+      : null,
   };
 }

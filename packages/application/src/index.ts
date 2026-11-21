@@ -32,6 +32,7 @@ export { GetExpense } from "./expense/get-expense";
 export { ApproveExpense } from "./expense/approve-expense";
 export { RejectExpense } from "./expense/reject-expense";
 export { PayExpense, type PayExpenseInput } from "./expense/pay-expense";
+export { ReverseExpensePayment } from "./expense/reverse-expense-payment";
 export { GetReceipt } from "./expense/get-receipt";
 export type { ExpenseView } from "./expense/expense-view";
 export { RECEIPT_MAX_BYTES, RECEIPT_TYPES } from "./expense/receipt-rules";
