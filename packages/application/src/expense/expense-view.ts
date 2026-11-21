@@ -9,6 +9,7 @@ export type ExpenseView = {
   date: Date;
   status: ExpenseStatus;
   submitterName: string;
+  supplierId: string | null;
   hasReceipt: boolean;
   decidedByName: string | null;
   decidedAt: Date | null;
@@ -29,6 +30,7 @@ export function toExpenseView(expense: Expense, names: Map<string, string>): Exp
     date: data.date,
     status: data.status,
     submitterName: nameOf(data.submittedBy) ?? "",
+    supplierId: data.supplierId,
     hasReceipt: data.receiptId !== null,
     decidedByName: nameOf(data.decidedBy),
     decidedAt: data.decidedAt,
