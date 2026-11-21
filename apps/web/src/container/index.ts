@@ -1,7 +1,9 @@
 import {
   AddMember,
   ApproveExpense,
+  GetDashboard,
   GetExpense,
+  GetTreasury,
   GetReceipt,
   ListExpenses,
   PayExpense,
@@ -40,6 +42,7 @@ const receipts = new PrismaReceiptStorage();
 const hasher = new BcryptPasswordHasher();
 const clock = new SystemClock();
 const ids = new UuidGenerator();
+const getTreasury = new GetTreasury(companies, invoices, expenses);
 
 export const useCases = {
   registerCompany: new RegisterCompany(companies, users, hasher, ids),
@@ -53,6 +56,8 @@ export const useCases = {
   rejectExpense: new RejectExpense(expenses, clock),
   payExpense: new PayExpense(expenses),
   getReceipt: new GetReceipt(expenses, receipts),
+  getTreasury,
+  getDashboard: new GetDashboard(getTreasury, invoices, expenses, clock),
   listClients: new ListClients(clients),
   listInvoices: new ListInvoices(invoices, clock),
   getInvoice: new GetInvoice(invoices, clock),
