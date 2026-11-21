@@ -21,6 +21,7 @@ import {
   ListMembers,
   Login,
   RecordPayment,
+  ReversePayment,
   RegisterCompany,
   ValidateInvoice,
 } from "@cashpilot/application";
@@ -74,4 +75,5 @@ export const useCases = {
   validateInvoice: new ValidateInvoice(invoices),
   cancelInvoice: new CancelInvoice(invoices),
   recordPayment: new RecordPayment(invoices, ids),
+  reversePayment: new ReversePayment(invoices, ids, clock),
 };
