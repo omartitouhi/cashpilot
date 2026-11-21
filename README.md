@@ -5,6 +5,12 @@ Secteur choisi : **agence digitale**.
 
 Projet React / Next.js organisé en **monorepo** (pnpm + Turborepo) selon la **Clean Architecture**.
 
+## Fonctionnalité du secteur : rentabilité par projet
+
+Une agence vend des projets (site, campagne, application). Chaque facture et chaque dépense
+peut être rattachée à un projet ; la page **Projets** affiche pour chacun le chiffre d'affaires
+facturé (factures validées), les coûts (dépenses approuvées ou payées) et la marge en DT et en %.
+
 ## Architecture
 
 ```
@@ -35,6 +41,10 @@ pnpm dev                        # http://localhost:3000
 ## Comptes de démonstration
 
 Entreprise « Agence Pixel » (solde initial 5 000 DT). Mot de passe : `demo1234`.
+Le seed crée aussi 2 clients, 2 fournisseurs, 2 projets, 3 factures (dont une en retard
+partiellement payée), 4 dépenses (payée, approuvée, à valider, refusée). Les dates sont relatives au jour du seed.
+Sur une base qui contient déjà des factures numérotées F-0001…, repartir d'une base vide
+(`pnpm --filter @cashpilot/db exec prisma migrate reset` efface tout) avant le seed.
 
 | Rôle | Email | Droits |
 |---|---|---|
@@ -76,6 +86,8 @@ Après une migration, relancer `pnpm dev` : le serveur garde l'ancien client Pri
 - Clients et fournisseurs partagent la même table (champ `kind`). Une dépense peut viser un fournisseur ;
   on ne peut pas facturer un fournisseur.
 - Les justificatifs (PDF ou image, 2 Mo max) sont stockés en base.
+- Un paiement erroné se corrige par contre-passation (opération inverse avec motif) : rien n'est effacé.
+  Le paiement d'une dépense, lui, n'a pas encore de correction.
 - Le solde réel est calculé à partir des paiements reçus et des dépenses payées (aucune copie des montants).
 - Prévision : reste à payer des factures validées à leur échéance, dépenses approuvées non payées
   à leur date ; un flux en retard est attendu dès aujourd'hui. Les dépenses encore à valider ne sont pas comptées.
