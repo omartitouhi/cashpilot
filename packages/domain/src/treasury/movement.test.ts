@@ -4,8 +4,8 @@ import { computeBalance, withRunningBalance, type Movement } from "./movement";
 
 const initial = Money.fromDinars(5000);
 const movements: Movement[] = [
-  { id: "exp-1", date: new Date("2026-03-10"), label: "Figma", amount: Money.fromDinars(-450.5) },
-  { id: "pay-1", date: new Date("2026-03-05"), label: "F-0001", amount: Money.fromDinars(1000) },
+  { id: "exp-1", date: new Date("2026-03-10"), label: "Figma", amount: Money.fromDinars(-450.5), direction: "OUT" },
+  { id: "pay-1", date: new Date("2026-03-05"), label: "F-0001", amount: Money.fromDinars(1000), direction: "IN" },
 ];
 
 describe("Trésorerie", () => {
