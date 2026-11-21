@@ -2,6 +2,7 @@ export { PrismaClientRepository } from "./prisma/prisma-client-repository";
 export { PrismaCompanyRepository } from "./prisma/prisma-company-repository";
 export { PrismaExpenseRepository } from "./prisma/prisma-expense-repository";
 export { PrismaInvoiceRepository } from "./prisma/prisma-invoice-repository";
+export { PrismaProjectRepository } from "./prisma/prisma-project-repository";
 export { PrismaReceiptStorage } from "./prisma/prisma-receipt-storage";
 export { PrismaUserRepository } from "./prisma/prisma-user-repository";
 export { PdfLibInvoiceRenderer } from "./pdf/pdf-lib-invoice-renderer";
