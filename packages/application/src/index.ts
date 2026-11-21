@@ -41,6 +41,9 @@ export { EXPENSE_CATEGORIES, type ExpenseCategory, type ExpenseStatus } from "@c
 export { GetTreasury, type TreasuryView } from "./treasury/get-treasury";
 export { GetDashboard, type DashboardView } from "./treasury/get-dashboard";
 
+// Prévisions et simulation
+export { GetForecast, type ForecastView, type ScenarioInput } from "./forecast/get-forecast";
+
 // Clients
 export { ListClients, type ClientView } from "./client/list-clients";
 
