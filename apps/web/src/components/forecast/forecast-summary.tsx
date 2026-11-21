@@ -63,11 +63,11 @@ export function FlowList({ flows }: { flows: ForecastView["flows"] }) {
       {flows.map((flow) => (
         <li key={flow.id} className="flex items-center gap-3 py-2">
           <span className="w-24 shrink-0 text-slate-500">{formatDate(flow.date)}</span>
-          <span className="truncate">{flow.label}</span>
+          <span className="min-w-0 flex-1 truncate">{flow.label}</span>
           {flow.simulated && (
-            <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700">Simulation</span>
+            <span className="shrink-0 rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700">Simulation</span>
           )}
-          <span className={`ml-auto font-medium tabular-nums ${flow.amount < 0 ? "text-red-600" : "text-brand-700"}`}>
+          <span className={`shrink-0 font-medium tabular-nums ${flow.amount < 0 ? "text-red-600" : "text-brand-700"}`}>
             {flow.amount > 0 && "+"}
             {formatMoney(flow.amount)}
           </span>
