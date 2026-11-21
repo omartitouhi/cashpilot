@@ -7,9 +7,12 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "depcruise": "depcruise apps/web/src packages --config .dependency-cruiser.cjs"
   },
   "devDependencies": {
-    "turbo": "^2.11.13"
+    "dependency-cruiser": "^18.8.0",
+    "turbo": "^2.11.13",
+    "typescript": "5.9.3"
   }
 }
