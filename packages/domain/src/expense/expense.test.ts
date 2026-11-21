@@ -45,6 +45,27 @@ describe("Expense", () => {
     expect(() => submitted().markPaid("u-finance", now)).toThrow("doit d'abord être approuvée");
   });
 
+  it("corrige un paiement erroné en gardant sa trace", () => {
+    const expense = submitted();
+    expense.approve("u-owner", now);
+    expense.markPaid("u-finance", new Date("2026-03-02"));
+    expense.reversePayment("u-finance", "Payé deux fois par erreur", new Date("2026-03-04"));
+
+    const data = expense.snapshot();
+    expect(expense.status).toBe("APPROVED"); // de nouveau à payer
+    expect(data.reversedPaidAt).toEqual(new Date("2026-03-02")); // le paiement annulé reste tracé
+    expect(data.reversalReason).toBe("Payé deux fois par erreur");
+  });
+
+  it("ne corrige le paiement qu'une seule fois", () => {
+    const expense = submitted();
+    expense.approve("u-owner", now);
+    expense.markPaid("u-finance", now);
+    expense.reversePayment("u-finance", "Erreur", now);
+    expense.markPaid("u-finance", now);
+    expect(() => expense.reversePayment("u-finance", "Encore", now)).toThrow("déjà été corrigé une fois");
+  });
+
   it("exige un motif de refus", () => {
     expect(() => submitted().reject("u-owner", "", now)).toThrow("Indiquez le motif du refus.");
   });
