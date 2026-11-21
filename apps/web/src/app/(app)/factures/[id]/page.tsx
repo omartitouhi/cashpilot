@@ -1,7 +1,8 @@
 import { Banknote, CircleCheck, Clock } from "lucide-react";
 import { notFound } from "next/navigation";
-import { NotFoundError } from "@cashpilot/application";
+import { can, NotFoundError, type SessionUser } from "@cashpilot/application";
 import { InvoiceActions } from "@/components/invoices/invoice-actions";
+import { AccessDenied } from "@/components/ui/access-denied";
 import { InvoiceStatusBadge } from "@/components/invoices/invoice-status-badge";
 import { PaymentList } from "@/components/invoices/payment-list";
 import { Card } from "@/components/ui/card";
@@ -14,8 +15,7 @@ import { formatMoney } from "@/lib/format-money";
 
 export const dynamic = "force-dynamic";
 
-async function loadInvoice(invoiceId: string) {
-  const user = await getCurrentUser();
+async function loadInvoice(user: SessionUser, invoiceId: string) {
   try {
     return await useCases.getInvoice.execute(user, invoiceId);
   } catch (error) {
@@ -26,7 +26,10 @@ async function loadInvoice(invoiceId: string) {
 
 export default async function InvoicePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const invoice = await loadInvoice(id);
+  const user = await getCurrentUser();
+  if (!can(user.role, "invoices:view")) return <AccessDenied />;
+
+  const invoice = await loadInvoice(user, id);
 
   return (
     <>
