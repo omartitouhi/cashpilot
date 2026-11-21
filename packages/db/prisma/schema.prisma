@@ -20,6 +20,19 @@ model Company {
   invoices       Invoice[]
   expenses       Expense[]
   receipts       Receipt[]
+  projects       Project[]
+}
+
+// Fonctionnalité du secteur « agence digitale » : rentabilité par projet.
+model Project {
+  id        String   @id
+  companyId String
+  clientId  String
+  name      String
+  createdAt DateTime @default(now())
+  company   Company  @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
 }
 
 enum Role {
@@ -71,6 +84,7 @@ model Invoice {
   id        String        @id
   companyId String
   clientId  String
+  projectId String?
   number    String
   amount    Decimal       @db.Decimal(14, 3)
   issueDate DateTime      @db.Date
@@ -111,6 +125,7 @@ model Expense {
   date            DateTime        @db.Date
   receiptId       String?
   supplierId      String?
+  projectId       String?
   status          ExpenseStatus
   decidedBy       String?
   decidedAt       DateTime?
