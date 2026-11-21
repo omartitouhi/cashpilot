@@ -132,6 +132,12 @@ model Expense {
   rejectionReason String?
   paidBy          String?
   paidAt          DateTime?       @db.Date
+  // Correction d'un paiement erroné : le paiement annulé reste tracé.
+  reversedPaidBy  String?
+  reversedPaidAt  DateTime?       @db.Date
+  reversedBy      String?
+  reversedAt      DateTime?
+  reversalReason  String?
   createdAt       DateTime        @default(now())
   company         Company         @relation(fields: [companyId], references: [id])
 
