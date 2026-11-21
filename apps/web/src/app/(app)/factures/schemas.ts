@@ -8,3 +8,8 @@ export const CreateInvoiceSchema = z.object({
   issueDate: z.coerce.date({ error: "Date invalide." }),
   dueDate: z.coerce.date({ error: "Date invalide." }),
 });
+
+export const RecordPaymentSchema = z.object({
+  amount: z.coerce.number().positive("Le montant doit être positif."),
+  date: z.coerce.date({ error: "Date invalide." }),
+});
