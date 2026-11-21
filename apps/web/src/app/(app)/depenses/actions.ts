@@ -60,6 +60,23 @@ export async function rejectExpenseAction(expenseId: string, _: ActionState, for
   return {};
 }
 
+export async function reverseExpensePaymentAction(
+  expenseId: string,
+  _: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const parsed = RejectExpenseSchema.safeParse(formValues(formData)); // même règle : un motif d'au moins 3 caractères
+  if (!parsed.success) return fromZodError(parsed.error);
+
+  try {
+    await useCases.reverseExpensePayment.execute(await getCurrentUser(), expenseId, parsed.data.reason);
+  } catch (error) {
+    return fromBusinessError(error);
+  }
+  refresh(expenseId);
+  return {};
+}
+
 export async function payExpenseAction(expenseId: string): Promise<ActionState> {
   try {
     // Le paiement est enregistré à la date du jour.
