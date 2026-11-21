@@ -44,7 +44,7 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
         {client.invoices.length === 0 ? (
           <EmptyState icon={FileText} title="Aucune facture" description="Ce client n'a pas encore été facturé." />
         ) : (
-          <InvoiceTable invoices={client.invoices} clientNames={new Map([[client.id, client.name]])} />
+          <InvoiceTable invoices={client.invoices} />
         )}
       </section>
     </>
